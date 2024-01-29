@@ -47,6 +47,7 @@ def get_security_group_id(botocore_ec2_client, security_group_name: str) -> str:
 
 
 if __name__ == "__main__":
+    prefix = os.getenv("PREFIX")
     parser = argparse.ArgumentParser(
         formatter_class=argparse.RawTextHelpFormatter,
         description=dedent(
@@ -65,13 +66,13 @@ if __name__ == "__main__":
     parser.add_argument(
         "--cluster",
         type=str,
-        default="airflow",
+        default=f"{prefix}-airflow",
         help="The name of the target cluster. Defaults to 'airflow'.",
     )
     parser.add_argument(
         "--task-definition",
         type=str,
-        default="airflow-standalone-task",
+        default=f"{prefix}-standalone-task",
         help="The name of the standalone task definition. Defaults to 'airflow-standalone-task'.",
     )
     parser.add_argument(
@@ -95,7 +96,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--security-group-name",
         type=str,
-        default="airflow-standalone-task",
+        default=f"{prefix}-standalone-task",
         help="The name of the standalone task security group. Defaults to 'airflow-standalone-task'.",
     )
     parser.add_argument(

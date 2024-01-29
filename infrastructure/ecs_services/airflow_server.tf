@@ -1,5 +1,5 @@
 resource "aws_security_group" "airflow_webserver_alb" {
-  name_prefix = "airflow-webserver-alb-"
+  name_prefix = "${var.prefix}-webserver-alb-"
   description = "Allow TLS inbound traffic"
   vpc_id      = var.vpc_id
   ingress {
@@ -139,7 +139,7 @@ resource "aws_security_group" "airflow_webserver_service" {
 
 resource "aws_ecs_service" "airflow_webserver" {
   depends_on = [ null_resource.build_ecr_image ,  aws_ecr_repository.airflow ]
-  name = "webserver"
+  name = "${var.prefix}-webserver"
   # Note: If a revision number is not specified, the latest ACTIVE revision is used.
   task_definition = aws_ecs_task_definition.airflow_webserver.family
   cluster         = aws_ecs_cluster.airflow.arn
@@ -161,12 +161,12 @@ resource "aws_ecs_service" "airflow_webserver" {
   }
   platform_version    = "1.4.0"
   scheduling_strategy = "REPLICA"
-  force_new_deployment = var.force_new_ecs_service_deployment
   load_balancer {
     target_group_arn = aws_lb_target_group.airflow_webserver.arn
     container_name   = "webserver"
     container_port   = 8080
   }
+  force_new_deployment = var.force_new_ecs_service_deployment
   # This can be used to update tasks to use a newer container image with same
   # image/tag combination (e.g., myimage:latest)
 }

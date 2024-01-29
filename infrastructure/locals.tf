@@ -1,9 +1,10 @@
-
 locals {
   aws_region = data.aws_region.current.name
   account_id = data.aws_caller_identity.current.account_id
+  airflow_admin_email = var.airflow_admin_email != null ? var.airflow_admin_email : "${var.airflow_admin_username}@airflow.com"
 
-  airflow_task_common_environment = [
+
+  airflow_task_common_environment = concat(var.extra_airflow_task_common_environment, [
     {
       name  = "AIRFLOW__WEBSERVER__INSTANCE_NAME"
       value = "${var.prefix}-sm2a"
@@ -47,7 +48,7 @@ locals {
       value = "false"
     }
 
-  ]
+  ])
 
   airflow_cloud_watch_metrics_namespace = "${var.prefix}-SM2A"
 }

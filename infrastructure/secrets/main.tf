@@ -31,3 +31,22 @@ resource "aws_secretsmanager_secret_version" "celery_result_backend" {
   secret_id     = aws_secretsmanager_secret.celery_result_backend.id
   secret_string = "db+postgresql://${var.db_username}:${var.db_password}@${var.db_endpoint}/${var.db_name}"
 }
+
+resource "aws_secretsmanager_secret" "airflow_secrets" {
+   name = "${var.prefix}-Airflow-master-secrets"
+}
+
+resource "aws_secretsmanager_secret_version" "airflow_secrets" {
+  secret_id = aws_secretsmanager_secret.airflow_secrets.id
+  secret_string = <<EOF
+   {
+    "database_user": "${var.db_username}",
+    "databse_password": "${var.db_password}",
+    "databse_endpoint": "${var.db_endpoint}",
+    "airflow_fernet_key": "${var.fernet_key}",
+    "airflow_admin_username": "${var.airflow_admin_username}",
+    "airflow_admin_password": "${var.airflow_admin_password}"
+
+   }
+EOF
+}

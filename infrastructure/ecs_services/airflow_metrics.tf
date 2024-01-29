@@ -7,7 +7,7 @@ resource "aws_cloudwatch_log_group" "airflow_metrics" {
 
 
 resource "aws_security_group" "airflow_metrics_service" {
-  name_prefix = "airflow-metrics-"
+  name = "${var.prefix}-metrics"
   description = "Deny all incoming traffic"
   vpc_id      = var.vpc_id
   egress {
@@ -39,19 +39,21 @@ resource "aws_ecs_task_definition" "airflow_metrics" {
       cpu       = 256
       memory    = 512
       essential = true
-      entryPoint = ["tail", "-f", "/dev/null"]
+      entryPoint = [
+        "python"
+      ]
       command = [
-#        "scripts/put_airflow_worker_autoscaling_metric_data.py",
-#        "--cluster-name",
-#        aws_ecs_cluster.airflow.name,
-#        "--worker-service-name",
-#        var.service_worker_name,
-#        "--region-name",
-#        var.aws_region,
-#        "--desired-count",
-#        var.desired_workers_count,
-#        "--period",
-#        "30"
+        "scripts/put_airflow_worker_autoscaling_metric_data.py",
+        "--cluster-name",
+        aws_ecs_cluster.airflow.name,
+        "--worker-service-name",
+        aws_ecs_service.airflow_worker.name,
+        "--region-name",
+        var.aws_region,
+        "--desired-count",
+        var.desired_workers_count,
+        "--period",
+        "30"
       ]
       environment = var.airflow_task_common_environment
       user        = "50000:0"
@@ -67,7 +69,6 @@ resource "aws_ecs_task_definition" "airflow_metrics" {
   ])
 }
 #
-
 resource "aws_ecs_service" "airflow_metrics" {
   depends_on = [ null_resource.build_ecr_image ,  aws_ecr_repository.airflow ]
   name            = "${var.prefix}-metrics"

@@ -1,0 +1,27 @@
+apache-airflow-providers-amazon==8.5.1
+botocore==1.31.17
+cryptography==41.0.3
+# To use SQS as a broker in Celery, you need to install pycurl.
+# https://github.com/saleor/saleor/issues/8804
+pycurl
+psycopg2-binary==2.9.7
+apache-airflow-providers-celery==3.3.2
+pydantic
+xmltodict
+apache-airflow-providers-http
+apache-airflow-providers-slack
+apache-airflow-providers-slack[http]
+awswrangler
+smart_open
+stream_zip
+apache-airflow-providers-docker
+psycopg2-binary
+stac-pydantic
+shapely
+rasterio
+Pillow
+geojson
+rioxarray
+great_expectations
+apache-airflow-providers-postgres
+python-dotenv

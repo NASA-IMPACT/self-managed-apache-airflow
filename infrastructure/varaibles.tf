@@ -68,3 +68,66 @@ variable "rds_instance_class" {
 variable "desired_workers_count" {
   default = "1"
 }
+
+variable "allowed_extra_security_groups_ids" {
+  type = list(string)
+  default = []
+}
+variable "force_new_ecs_service_deployment" {
+  type = bool
+  default = true
+}
+variable "extra_airflow_task_common_environment" {
+  type = list(object({
+    name  = string
+    value = string
+  }))
+  default = []
+}
+
+variable "sqs_arns_list" {
+  type = list(string)
+  default = []
+}
+
+variable "allowed_cidr_blocks" {
+  type = list(string)
+  default = []
+}
+
+variable "rds_publicly_accessible" {
+  type = bool
+  default = false
+}
+
+variable "rds_snapshot_identifier" {
+  default = null
+}
+
+
+variable "airflow_admin_username" {
+
+}
+variable "airflow_admin_password" {
+
+}
+variable "airflow_admin_email" {
+  default = null
+}
+
+variable "worker_cpu" {
+  default = 4096
+}
+variable "worker_memory" {
+  default = 4096 * 2
+}
+
+variable "custom_worker_policy_statement" {
+  type = list(object({
+    Effect  = string
+    Action = list(string)
+    Resource = list(string)
+  }))
+  default = []
+
+}

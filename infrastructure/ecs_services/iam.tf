@@ -194,7 +194,7 @@ resource "aws_iam_policy" "airflow_worker_policies" {
   description = "Grant permissions needed for the worker."
   policy = jsonencode({
     Version = "2012-10-17"
-    Statement = [
+    Statement = concat ([
       {
         Effect = "Allow"
         Action = [
@@ -206,7 +206,7 @@ resource "aws_iam_policy" "airflow_worker_policies" {
         ]
         Resource = "*"
       }
-    ]
+    ], var.custom_worker_policy_statement)
   })
 }
 

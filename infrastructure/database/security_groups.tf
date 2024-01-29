@@ -13,6 +13,7 @@ resource "aws_db_subnet_group" "airflow_db" {
 # It should allow incoming access on var.db.port from our airflow services.
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group
 
+
 resource "aws_security_group" "airflow_db" {
   name_prefix = "${var.prefix}-airflow-db-"
   description = "Allow inbound traffic to RDS from ECS"
@@ -22,6 +23,12 @@ resource "aws_security_group" "airflow_db" {
     to_port   = var.airflow_db.port
     protocol  = "tcp"
     security_groups = var.allowed_security_groups_ids
+  }
+  ingress {
+    from_port = var.airflow_db.port
+    to_port   = var.airflow_db.port
+    protocol  = "tcp"
+    cidr_blocks = var.allowed_cidr_blocks
   }
   egress {
     from_port   = 0

@@ -43,3 +43,7 @@ variable "public_subnet_ids" {
 variable "private_subnet_ids" {
 
 }
+
+variable "allowed_cidr_blocks" {
+  type = list(string)
+}

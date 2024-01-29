@@ -47,3 +47,20 @@ variable "airflow_bucket_arn" {
 
 variable "public_subnet_ids" {
 }
+
+variable "worker_cpu" {
+
+}
+variable "worker_memory" {
+
+}
+
+variable "custom_worker_policy_statement" {
+  type = list(object({
+    Effect  = string
+    Action = list(string)
+    Resource = list(string)
+  }))
+
+}
+

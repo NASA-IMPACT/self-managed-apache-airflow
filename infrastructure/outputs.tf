@@ -9,3 +9,7 @@ output "airflow_url" {
 output "database_endpoint" {
   value = module.database.database_endpoint
 }
+
+output "airflow_secret_name" {
+  value = module.secrets.airflow_secrets
+}

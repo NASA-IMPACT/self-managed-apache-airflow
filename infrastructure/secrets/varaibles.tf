@@ -18,3 +18,9 @@ variable "prefix" {
 
 variable "fernet_key" {
 }
+variable "airflow_admin_username" {
+
+}
+variable "airflow_admin_password" {
+
+}
