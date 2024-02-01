@@ -64,3 +64,16 @@ variable "custom_worker_policy_statement" {
 
 }
 
+variable "number_of_schedulers" {
+   type = number
+}
+
+variable "scheduler_cpu" {
+
+  type = number
+}
+variable "scheduler_memory" {
+  type = number
+
+}
+

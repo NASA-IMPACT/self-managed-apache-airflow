@@ -35,10 +35,11 @@ resource "aws_ssm_parameter" "airflow_ecs_cloudwatch_agent_config" {
   )
 }
 
+
 resource "aws_ecs_task_definition" "airflow_scheduler" {
   family             = "${var.prefix}-scheduler"
-  cpu                = 1024
-  memory             = 2048
+  cpu                = var.scheduler_cpu
+  memory             = var.scheduler_memory
   execution_role_arn = aws_iam_role.ecs_task_execution_role.arn
   task_role_arn      = aws_iam_role.airflow_task.arn
   network_mode       = "awsvpc"
@@ -51,8 +52,8 @@ resource "aws_ecs_task_definition" "airflow_scheduler" {
     {
       name   = "scheduler"
       image  = join(":", [aws_ecr_repository.airflow.repository_url, "latest"])
-      cpu    = 1024
-      memory = 2048
+      cpu    = var.scheduler_cpu
+      memory = var.scheduler_memory
       healthcheck = {
         command = [
           "CMD-SHELL",
@@ -114,6 +115,7 @@ resource "aws_security_group" "airflow_scheduler_service" {
   }
 }
 
+
 resource "aws_ecs_service" "airflow_scheduler" {
   name = "${var.prefix}-scheduler"
   depends_on = [ null_resource.build_ecr_image ,  aws_ecr_repository.airflow ]
@@ -126,7 +128,7 @@ resource "aws_ecs_service" "airflow_scheduler" {
   }
   deployment_maximum_percent         = 200
   deployment_minimum_healthy_percent = 100
-  desired_count                      = 1
+  desired_count                      = var.number_of_schedulers
   lifecycle {
     ignore_changes = [desired_count]
   }

@@ -131,3 +131,17 @@ variable "custom_worker_policy_statement" {
   default = []
 
 }
+
+variable "number_of_schedulers" {
+  type = number
+  default = 1
+}
+
+variable "scheduler_cpu" {
+  type = number
+  default = 1024
+}
+variable "scheduler_memory" {
+  type = number
+  default = 2048
+}

@@ -73,8 +73,6 @@ resource "null_resource" "build_worker_ecr_image" {
   triggers = {
     build_path_worker = sha1(join("", [for f in fileset(local.worker_build_path, "**") : filesha1("${local.worker_build_path}/${f}")]))
     dag_folder_path       = sha1(join("", [for f in fileset(local.dag_folder_path, "**") : filesha1("${local.dag_folder_path}/${f}")]))
-
-
   }
 
   provisioner "local-exec" {

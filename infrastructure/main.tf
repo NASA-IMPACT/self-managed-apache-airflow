@@ -74,6 +74,9 @@ module "ecs_services" {
   worker_memory                    = var.worker_memory #4096 * 2
 
   custom_worker_policy_statement = var.custom_worker_policy_statement
+  number_of_schedulers           = var.number_of_schedulers
+  scheduler_memory               = var.scheduler_memory
+  scheduler_cpu                  = var.scheduler_cpu
 }
 
 resource "null_resource" "airflow_create_airflow_user" {
