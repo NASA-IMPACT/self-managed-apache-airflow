@@ -77,3 +77,11 @@ variable "scheduler_memory" {
 
 }
 
+variable "domain_name" {
+  default = "csda.sm2a.nasa-impact.net"
+}
+
+variable "stage" {
+  default = "dev"
+}
+

@@ -1,5 +1,5 @@
 output "airflow_url" {
-  value = aws_lb.airflow_webserver.dns_name
+  value = aws_alb_listener.ecs-alb-https.arn
 }
 
 output "allowed_security_groups_id" {
