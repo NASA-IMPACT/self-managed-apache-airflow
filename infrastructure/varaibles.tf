@@ -145,3 +145,16 @@ variable "scheduler_memory" {
   type = number
   default = 2048
 }
+
+variable "contact" {
+  default = "CSDA Admin"
+}
+variable "domain_name" {
+
+}
+variable "project" {
+  default = "CSDA"
+}
+variable "stage" {
+
+}

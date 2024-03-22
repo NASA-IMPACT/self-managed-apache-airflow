@@ -1,11 +1,12 @@
+
 resource "aws_alb" "airflow_webserver" {
   name               = "${var.prefix}-webserver"
   internal           = false
   security_groups    = [aws_security_group.airflow_webserver_alb.id]
   subnets            = var.public_subnet_ids
     tags = {
-      Contact = "Abdelhak"
-      Project = "CSDA"
+      Contact = var.contact
+      Project = var.project
   }
 }
 
@@ -26,8 +27,8 @@ resource "aws_alb_target_group" "ecs-default-target-grp" {
   protocol = "HTTP"
   vpc_id   = var.vpc_id
   tags = {
-      Contact = "Abdelhak"
-      Project = "CSDA"
+      Contact = var.contact
+      Project = var.project
   }
 }
 
@@ -64,8 +65,8 @@ resource "aws_alb_target_group" "ecs-app-target-group" {
   }
 
   tags = {
-      Contact = "Abdelhak"
-      Project = "CSDA"
+      Contact = var.contact
+      Project = var.project
   }
 }
 

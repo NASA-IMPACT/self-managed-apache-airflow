@@ -51,6 +51,8 @@ resource "local_file" "airflow_configuration" {
 
 
 
+
+
 module "ecs_services" {
   source                           = "./ecs_services"
   depends_on = [local_file.airflow_configuration]
@@ -77,6 +79,10 @@ module "ecs_services" {
   number_of_schedulers           = var.number_of_schedulers
   scheduler_memory               = var.scheduler_memory
   scheduler_cpu                  = var.scheduler_cpu
+  contact                        = var.contact
+  domain_name                    = var.domain_name
+  project                        = var.project
+  stage                          = var.stage
 }
 
 resource "null_resource" "airflow_create_airflow_user" {
