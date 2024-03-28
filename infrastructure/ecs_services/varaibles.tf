@@ -77,3 +77,18 @@ variable "scheduler_memory" {
 
 }
 
+variable "domain_name" {
+  type = string
+}
+
+variable "stage" {
+
+}
+
+variable "contact" {
+
+}
+variable "project" {
+
+}
+

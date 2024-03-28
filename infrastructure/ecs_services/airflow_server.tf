@@ -1,61 +1,5 @@
-resource "aws_security_group" "airflow_webserver_alb" {
-  name_prefix = "${var.prefix}-webserver-alb-"
-  description = "Allow TLS inbound traffic"
-  vpc_id      = var.vpc_id
-  ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-}
 
 
-resource "aws_lb" "airflow_webserver" {
-  name               = "${var.prefix}-webserver"
-  internal           = false
-  load_balancer_type = "application"
-  security_groups    = [aws_security_group.airflow_webserver_alb.id]
-  subnets            = var.public_subnet_ids
-  ip_address_type    = "ipv4"
-}
-
-# The webserver service target group to route traffic from the ALB listener to the
-# webserver ECS service.
-# The flow of traffic is:
-#   Internet -> ALB -> Listener -> Target Group -> ECS Service
-# Note: ECS registers targets automatically, so we do not need to define them.
-resource "aws_lb_target_group" "airflow_webserver" {
-  name        = "${var.prefix}-webserver"
-  port        = 8080
-  protocol    = "HTTP"
-  target_type = "ip"
-  vpc_id      = var.vpc_id
-  health_check {
-    enabled = true
-    path    = "/health"
-    # Note: 'interval' must be greater than 'timeout'
-    interval            = 30
-    timeout             = 10
-    unhealthy_threshold = 5
-  }
-}
-
-resource "aws_lb_listener" "airflow_webserver" {
-  load_balancer_arn = aws_lb.airflow_webserver.arn
-  port              = "80"
-  protocol          = "HTTP"
-  default_action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.airflow_webserver.arn
-  }
-}
 
 resource "aws_cloudwatch_log_group" "airflow_webserver" {
   name_prefix       = "/${var.prefix}/airflow-webserver/"
@@ -162,7 +106,7 @@ resource "aws_ecs_service" "airflow_webserver" {
   platform_version    = "1.4.0"
   scheduling_strategy = "REPLICA"
   load_balancer {
-    target_group_arn = aws_lb_target_group.airflow_webserver.arn
+    target_group_arn = aws_alb_target_group.ecs-app-target-group.arn # .airflow_webserver.arn
     container_name   = "webserver"
     container_port   = 8080
   }
