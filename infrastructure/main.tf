@@ -83,6 +83,7 @@ module "ecs_services" {
   domain_name                    = var.domain_name
   project                        = var.project
   stage                          = var.stage
+  worker_cmd                     = var.worker_cmd
 }
 
 resource "null_resource" "airflow_create_airflow_user" {

@@ -156,3 +156,7 @@ variable "project" {
 variable "stage" {
 
 }
+
+variable "worker_cmd" {
+  type = list(string)
+}

@@ -5,6 +5,7 @@ resource "aws_cloudwatch_log_group" "airflow_worker" {
 }
 
 
+
 resource "aws_ecs_task_definition" "airflow_worker" {
   family             = "${var.prefix}-worker"
   cpu                = var.worker_cpu # 4096
@@ -25,7 +26,7 @@ resource "aws_ecs_task_definition" "airflow_worker" {
       cpu       = var.worker_cpu
       memory    = var.worker_memory
       essential = true
-      command   = ["/home/airflow/.local/bin/airflow", "celery", "worker"]
+      command   = var.worker_cmd != [] ? var.worker_cmd : ["celery", "worker"]
       linuxParameters = {
         initProcessEnabled = true
       }
