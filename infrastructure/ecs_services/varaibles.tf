@@ -96,3 +96,5 @@ variable "worker_cmd" {
 type = list(string)
 }
 
+variable "subdomain" {
+}

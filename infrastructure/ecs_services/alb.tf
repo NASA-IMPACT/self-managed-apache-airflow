@@ -1,4 +1,8 @@
 
+locals {
+  subdomain = var.subdomain == "null" ? var.stage : var.subdomain
+}
+
 resource "aws_alb" "airflow_webserver" {
   name               = "${var.prefix}-webserver"
   internal           = false
@@ -80,7 +84,7 @@ resource "aws_alb_listener_rule" "ecs-alb-listener-role" {
   }
   condition {
     host_header {
-      values = ["${lower(var.stage)}.${var.domain_name}"]
+      values = ["${lower(local.subdomain)}.${var.domain_name}"]
     }
   }
 }
