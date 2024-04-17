@@ -1,5 +1,5 @@
 output "airflow_url" {
-  value = aws_alb_listener.ecs-alb-https.arn
+  value = "${lower(local.subdomain)}.${var.domain_name}"
 }
 
 output "allowed_security_groups_id" {
