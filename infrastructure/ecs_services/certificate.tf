@@ -1,10 +1,10 @@
 
 resource "aws_acm_certificate" "ecs-domain-certificate" {
-  domain_name       = "*.${var.domain_name}"
+  domain_name       = "${lower(local.subdomain)}.${var.domain_name}"
   validation_method = "DNS"
     tags = {
       Contact = "Abdelhak"
-      Project = "CSDA"
+      Project = var.project
   }
 }
 

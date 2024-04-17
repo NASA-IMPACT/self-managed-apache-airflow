@@ -7,7 +7,7 @@ locals {
   airflow_task_common_environment = concat(var.extra_airflow_task_common_environment, [
     {
       name  = "AIRFLOW__WEBSERVER__INSTANCE_NAME"
-      value = "${var.prefix}-sm2a"
+      value = "${var.prefix}-${var.project}"
     },
     {
       name  = "AIRFLOW__LOGGING__LOGGING_LEVEL"
