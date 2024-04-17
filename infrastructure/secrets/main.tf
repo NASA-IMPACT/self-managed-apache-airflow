@@ -36,6 +36,7 @@ resource "aws_secretsmanager_secret" "airflow_secrets" {
    name = "${var.prefix}-Airflow-master-secrets"
 }
 
+
 resource "aws_secretsmanager_secret_version" "airflow_secrets" {
   secret_id = aws_secretsmanager_secret.airflow_secrets.id
   secret_string = <<EOF
@@ -46,6 +47,22 @@ resource "aws_secretsmanager_secret_version" "airflow_secrets" {
     "airflow_fernet_key": "${var.fernet_key}",
     "airflow_admin_username": "${var.airflow_admin_username}",
     "airflow_admin_password": "${var.airflow_admin_password}"
+
+   }
+EOF
+}
+
+
+resource "aws_secretsmanager_secret" "airflow_dag_variables" {
+   name = "${var.prefix}/airflow/variables/aws_dags_variables"
+}
+
+
+resource "aws_secretsmanager_secret_version" "airflow_dag_variables" {
+  secret_id = aws_secretsmanager_secret.airflow_dag_variables.id
+  secret_string = <<EOF
+   {
+    "db_secret_name": "${aws_secretsmanager_secret.airflow_secrets.name}"
 
    }
 EOF
