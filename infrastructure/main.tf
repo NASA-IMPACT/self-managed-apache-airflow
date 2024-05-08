@@ -21,6 +21,8 @@ module "database" {
   snapshot_identifier         = var.rds_snapshot_identifier
   vpc_id                      = var.vpc_id
   allowed_cidr_blocks = var.allowed_cidr_blocks
+  db_allocated_storage        = var.db_allocated_storage
+  db_max_allocated_storage    = var.db_max_allocated_storage
 }
 
 
@@ -37,6 +39,7 @@ module "secrets" {
   prefix      = var.prefix
   airflow_admin_username = var.airflow_admin_username
   airflow_admin_password = var.airflow_admin_password
+  webserver_url = module.ecs_services.airflow_url
 }
 
 
@@ -48,8 +51,6 @@ resource "local_file" "airflow_configuration" {
   })
   filename = "../${path.root}/infrastructure/configuration/airflow.cfg"
 }
-
-
 
 
 
@@ -72,8 +73,8 @@ module "ecs_services" {
   sql_alchemy_conn_ssm_arn         = module.secrets.sql_alchemy_conn_arn
   sqs_arns_list                    = concat(var.sqs_arns_list, [module.sqs_queue.celery_broker_arn])
   public_subnet_ids                = data.aws_subnets.public_subnets_id.ids
-  worker_cpu                       =  var.worker_cpu #4096
-  worker_memory                    = var.worker_memory #4096 * 2
+  worker_cpu                       =  var.worker_cpu
+  worker_memory                    = var.worker_memory
 
   custom_worker_policy_statement = var.custom_worker_policy_statement
   number_of_schedulers           = var.number_of_schedulers

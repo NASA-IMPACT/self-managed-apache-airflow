@@ -24,3 +24,6 @@ variable "airflow_admin_username" {
 variable "airflow_admin_password" {
 
 }
+
+variable "webserver_url" {
+}

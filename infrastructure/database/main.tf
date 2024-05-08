@@ -5,10 +5,11 @@
 
 
 
+
 resource "aws_db_instance" "airflow_db" {
   identifier_prefix      = "${var.prefix}-airflow-db-"
-  allocated_storage      = 20
-  max_allocated_storage  = 100
+  allocated_storage      = var.db_allocated_storage
+  max_allocated_storage  = var.db_max_allocated_storage
   db_subnet_group_name   = aws_db_subnet_group.airflow_db.name
   engine                 = "postgres"
   engine_version         = var.rds_engine_version

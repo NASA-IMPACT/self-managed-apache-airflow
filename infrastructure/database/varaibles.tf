@@ -47,3 +47,10 @@ variable "private_subnet_ids" {
 variable "allowed_cidr_blocks" {
   type = list(string)
 }
+
+variable "db_allocated_storage" {
+  type = number
+}
+variable "db_max_allocated_storage" {
+  type = number
+}

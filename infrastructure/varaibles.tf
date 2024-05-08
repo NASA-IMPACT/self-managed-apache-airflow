@@ -165,3 +165,12 @@ variable "worker_cmd" {
 variable "subdomain" {
   default = "null"
 }
+
+variable "db_allocated_storage" {
+  type = number
+  default = 20
+}
+variable "db_max_allocated_storage" {
+  type = number
+  default = 100
+}

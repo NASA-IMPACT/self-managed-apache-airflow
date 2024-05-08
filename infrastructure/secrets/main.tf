@@ -37,6 +37,7 @@ resource "aws_secretsmanager_secret" "airflow_secrets" {
 }
 
 
+
 resource "aws_secretsmanager_secret_version" "airflow_secrets" {
   secret_id = aws_secretsmanager_secret.airflow_secrets.id
   secret_string = <<EOF
@@ -46,7 +47,8 @@ resource "aws_secretsmanager_secret_version" "airflow_secrets" {
     "databse_endpoint": "${var.db_endpoint}",
     "airflow_fernet_key": "${var.fernet_key}",
     "airflow_admin_username": "${var.airflow_admin_username}",
-    "airflow_admin_password": "${var.airflow_admin_password}"
+    "airflow_admin_password": "${var.airflow_admin_password}",
+    "airflow_webserver_url": "${var.webserver_url}"
 
    }
 EOF
