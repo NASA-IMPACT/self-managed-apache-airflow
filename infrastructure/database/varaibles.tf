@@ -11,30 +11,30 @@ variable "publicly_accessible" {
   type = bool
 }
 variable "prefix" {
-  
+
 }
 
 variable "rds_engine_version" {
-  
+
 }
 variable "rds_instance_class" {
-  
+
 }
 variable "aws_region" {
-  
+
 }
 variable "account_id" {
-  
+
 }
 variable "snapshot_identifier" {
-  
+
 }
 variable "vpc_id" {
-  
+
 }
 variable "allowed_security_groups_ids" {
   type = list(string)
-  
+
 }
 
 variable "public_subnet_ids" {

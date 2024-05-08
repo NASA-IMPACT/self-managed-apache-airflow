@@ -16,7 +16,7 @@ resource "aws_ecr_repository" "worker_airflow" {
 
 
 resource "aws_ecr_lifecycle_policy" "ecr_policy" {
-  for_each = toset([aws_ecr_repository.airflow.name, aws_ecr_repository.worker_airflow.name])
+  for_each   = toset([aws_ecr_repository.airflow.name, aws_ecr_repository.worker_airflow.name])
   repository = each.value
   policy = jsonencode({
     "rules" = [
@@ -39,20 +39,20 @@ resource "aws_ecr_lifecycle_policy" "ecr_policy" {
 }
 locals {
 
-build_path = "../${path.root}/airflow_services"
-  dag_folder_path = "../${path.root}/dags"
-  scripts_path = "../${path.root}/scripts"
-  config_path = "../${path.root}/configuration"
+  build_path        = "../${path.root}/airflow_services"
+  dag_folder_path   = "../${path.root}/dags"
+  scripts_path      = "../${path.root}/scripts"
+  config_path       = "../${path.root}/configuration"
   worker_build_path = "../${path.root}/airflow_worker"
 }
 
 
 resource "null_resource" "build_ecr_image" {
   triggers = {
-    build_path = sha1(join("", [for f in fileset(local.build_path, "**") : filesha1("${local.build_path}/${f}")]))
-    scripts_path = sha1(join("", [for f in fileset(local.scripts_path, "**") : filesha1("${local.scripts_path}/${f}")]))
-    dag_folder_path       = sha1(join("", [for f in fileset(local.dag_folder_path, "**") : filesha1("${local.dag_folder_path}/${f}")]))
-    config_folder_path       = sha1(join("", [for f in fileset(local.config_path, "**") : filesha1("${local.config_path}/${f}")]))
+    build_path         = sha1(join("", [for f in fileset(local.build_path, "**") : filesha1("${local.build_path}/${f}")]))
+    scripts_path       = sha1(join("", [for f in fileset(local.scripts_path, "**") : filesha1("${local.scripts_path}/${f}")]))
+    dag_folder_path    = sha1(join("", [for f in fileset(local.dag_folder_path, "**") : filesha1("${local.dag_folder_path}/${f}")]))
+    config_folder_path = sha1(join("", [for f in fileset(local.config_path, "**") : filesha1("${local.config_path}/${f}")]))
 
 
   }
@@ -72,7 +72,7 @@ resource "null_resource" "build_ecr_image" {
 resource "null_resource" "build_worker_ecr_image" {
   triggers = {
     build_path_worker = sha1(join("", [for f in fileset(local.worker_build_path, "**") : filesha1("${local.worker_build_path}/${f}")]))
-    dag_folder_path       = sha1(join("", [for f in fileset(local.dag_folder_path, "**") : filesha1("${local.dag_folder_path}/${f}")]))
+    dag_folder_path   = sha1(join("", [for f in fileset(local.dag_folder_path, "**") : filesha1("${local.dag_folder_path}/${f}")]))
   }
 
   provisioner "local-exec" {

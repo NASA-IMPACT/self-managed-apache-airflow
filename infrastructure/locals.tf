@@ -1,6 +1,6 @@
 locals {
-  aws_region = data.aws_region.current.name
-  account_id = data.aws_caller_identity.current.account_id
+  aws_region          = data.aws_region.current.name
+  account_id          = data.aws_caller_identity.current.account_id
   airflow_admin_email = var.airflow_admin_email != null ? var.airflow_admin_email : "${var.airflow_admin_username}@airflow.com"
 
 
@@ -30,16 +30,16 @@ locals {
     {
       name = "AIRFLOW__DATABASE__SQL_ALCHEMY_CONN_SECRET"
       # Remove the "config_prefix" using `substr`
-      value = substr(module.secrets.sql_alchemy_conn_name, length(var.prefix)+16, -1)
+      value = substr(module.secrets.sql_alchemy_conn_name, length(var.prefix) + 16, -1)
 
     },
     {
       name  = "AIRFLOW__CORE__FERNET_KEY_SECRET"
-      value = substr(module.secrets.fernet_key_name, length(var.prefix)+16, -1)
+      value = substr(module.secrets.fernet_key_name, length(var.prefix) + 16, -1)
     },
     {
       name  = "AIRFLOW__CELERY__RESULT_BACKEND_SECRET"
-      value = substr(module.secrets.celery_result_backend_name, length(var.prefix)+16, -1)
+      value = substr(module.secrets.celery_result_backend_name, length(var.prefix) + 16, -1)
     },
     {
       # Note: Even if one sets this to "True" in airflow.cfg a hidden environment

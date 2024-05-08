@@ -13,14 +13,15 @@ resource "aws_db_instance" "airflow_db" {
   db_subnet_group_name   = aws_db_subnet_group.airflow_db.name
   engine                 = "postgres"
   engine_version         = var.rds_engine_version
-  instance_class = var.rds_instance_class
+  instance_class         = var.rds_instance_class
   publicly_accessible    = var.publicly_accessible
   vpc_security_group_ids = [aws_security_group.airflow_db.id]
   apply_immediately      = true
-  snapshot_identifier = var.snapshot_identifier
+  snapshot_identifier    = var.snapshot_identifier
   skip_final_snapshot    = true
   db_name                = var.airflow_db.db_name
   username               = var.airflow_db.username
   password               = var.airflow_db.password
   port                   = var.airflow_db.port
+  deletion_protection    = true
 }

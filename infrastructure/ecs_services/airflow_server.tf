@@ -82,8 +82,8 @@ resource "aws_security_group" "airflow_webserver_service" {
 }
 
 resource "aws_ecs_service" "airflow_webserver" {
-  depends_on = [ null_resource.build_ecr_image ,  aws_ecr_repository.airflow ]
-  name = "${var.prefix}-webserver"
+  depends_on = [null_resource.build_ecr_image, aws_ecr_repository.airflow]
+  name       = "${var.prefix}-webserver"
   # Note: If a revision number is not specified, the latest ACTIVE revision is used.
   task_definition = aws_ecs_task_definition.airflow_webserver.family
   cluster         = aws_ecs_cluster.airflow.arn
@@ -93,8 +93,8 @@ resource "aws_ecs_service" "airflow_webserver" {
   deployment_maximum_percent         = 200
   deployment_minimum_healthy_percent = 100
   desired_count                      = 1
-  enable_execute_command = true
-  launch_type            = "FARGATE"
+  enable_execute_command             = true
+  launch_type                        = "FARGATE"
   network_configuration {
     subnets = var.public_subnet_ids
     # In order for a Fargate task to pull the container image, it must either

@@ -4,13 +4,13 @@ locals {
 }
 
 resource "aws_alb" "airflow_webserver" {
-  name               = "${var.prefix}-webserver"
-  internal           = false
-  security_groups    = [aws_security_group.airflow_webserver_alb.id]
-  subnets            = var.public_subnet_ids
-    tags = {
-      Contact = var.contact
-      Project = var.project
+  name            = "${var.prefix}-webserver"
+  internal        = false
+  security_groups = [aws_security_group.airflow_webserver_alb.id]
+  subnets         = var.public_subnet_ids
+  tags = {
+    Contact = var.contact
+    Project = var.project
   }
 }
 
@@ -31,8 +31,8 @@ resource "aws_alb_target_group" "ecs-default-target-grp" {
   protocol = "HTTP"
   vpc_id   = var.vpc_id
   tags = {
-      Contact = var.contact
-      Project = var.project
+    Contact = var.contact
+    Project = var.project
   }
 }
 
@@ -54,10 +54,10 @@ resource "aws_alb_listener" "ecs-alb-https" {
 
 
 resource "aws_alb_target_group" "ecs-app-target-group" {
-  name = "${var.prefix}-app-tg"
-  port = 8080 # docker port
-  protocol = "HTTP"
-  vpc_id = var.vpc_id
+  name        = "${var.prefix}-app-tg"
+  port        = 8080 # docker port
+  protocol    = "HTTP"
+  vpc_id      = var.vpc_id
   target_type = "ip"
   health_check {
     enabled = true
@@ -69,8 +69,8 @@ resource "aws_alb_target_group" "ecs-app-target-group" {
   }
 
   tags = {
-      Contact = var.contact
-      Project = var.project
+    Contact = var.contact
+    Project = var.project
   }
 }
 
@@ -79,7 +79,7 @@ resource "aws_alb_target_group" "ecs-app-target-group" {
 resource "aws_alb_listener_rule" "ecs-alb-listener-role" {
   listener_arn = aws_alb_listener.ecs-alb-https.arn
   action {
-    type = "forward"
+    type             = "forward"
     target_group_arn = aws_alb_target_group.ecs-app-target-group.arn
   }
   condition {

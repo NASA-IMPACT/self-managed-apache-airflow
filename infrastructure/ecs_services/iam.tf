@@ -7,7 +7,7 @@
 # https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html#task_role_arn
 # https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html
 resource "aws_iam_role" "airflow_task" {
-  name_prefix = "${var.prefix}-airflow-task-"
+  name_prefix          = "${var.prefix}-airflow-task-"
   permissions_boundary = var.permission_boundaries_arn == "null" ? null : var.permission_boundaries_arn
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -194,7 +194,7 @@ resource "aws_iam_policy" "airflow_worker_policies" {
   description = "Grant permissions needed for the worker."
   policy = jsonencode({
     Version = "2012-10-17"
-    Statement = concat ([
+    Statement = concat([
       {
         Effect = "Allow"
         Action = [
@@ -219,7 +219,7 @@ resource "aws_iam_role_policy_attachment" "airflow_workers" {
 
 
 resource "aws_iam_role" "ecs_task_execution_role" {
-  name_prefix = "${var.prefix}ecsTaskExecution"
+  name_prefix          = "${var.prefix}ecsTaskExecution"
   permissions_boundary = var.permission_boundaries_arn == "null" ? null : var.permission_boundaries_arn
   assume_role_policy = jsonencode({
     Version = "2012-10-17"

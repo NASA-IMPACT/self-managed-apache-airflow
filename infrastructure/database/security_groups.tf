@@ -6,7 +6,7 @@ resource "aws_db_subnet_group" "airflow_db" {
   name_prefix = "${var.prefix}-airflow-db-"
   # We are making it public to show the full potential of distributed system
   # To make it private use provate subnets here
-  subnet_ids  = var.publicly_accessible ? var.public_subnet_ids : var.private_subnet_ids
+  subnet_ids = var.publicly_accessible ? var.public_subnet_ids : var.private_subnet_ids
 }
 
 # A security group to attach to our RDS instance.
@@ -19,15 +19,15 @@ resource "aws_security_group" "airflow_db" {
   description = "Allow inbound traffic to RDS from ECS"
   vpc_id      = var.vpc_id
   ingress {
-    from_port = var.airflow_db.port
-    to_port   = var.airflow_db.port
-    protocol  = "tcp"
+    from_port       = var.airflow_db.port
+    to_port         = var.airflow_db.port
+    protocol        = "tcp"
     security_groups = var.allowed_security_groups_ids
   }
   ingress {
-    from_port = var.airflow_db.port
-    to_port   = var.airflow_db.port
-    protocol  = "tcp"
+    from_port   = var.airflow_db.port
+    to_port     = var.airflow_db.port
+    protocol    = "tcp"
     cidr_blocks = var.allowed_cidr_blocks
   }
   egress {

@@ -33,13 +33,13 @@ resource "aws_secretsmanager_secret_version" "celery_result_backend" {
 }
 
 resource "aws_secretsmanager_secret" "airflow_secrets" {
-   name = "${var.prefix}-Airflow-master-secrets"
+  name = "${var.prefix}-Airflow-master-secrets"
 }
 
 
 
 resource "aws_secretsmanager_secret_version" "airflow_secrets" {
-  secret_id = aws_secretsmanager_secret.airflow_secrets.id
+  secret_id     = aws_secretsmanager_secret.airflow_secrets.id
   secret_string = <<EOF
    {
     "database_user": "${var.db_username}",
@@ -56,12 +56,12 @@ EOF
 
 
 resource "aws_secretsmanager_secret" "airflow_dag_variables" {
-   name = "${var.prefix}/airflow/variables/aws_dags_variables"
+  name = "${var.prefix}/airflow/variables/aws_dags_variables"
 }
 
 
 resource "aws_secretsmanager_secret_version" "airflow_dag_variables" {
-  secret_id = aws_secretsmanager_secret.airflow_dag_variables.id
+  secret_id     = aws_secretsmanager_secret.airflow_dag_variables.id
   secret_string = <<EOF
    {
     "db_secret_name": "${aws_secretsmanager_secret.airflow_secrets.name}"

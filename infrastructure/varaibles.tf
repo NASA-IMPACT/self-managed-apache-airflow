@@ -63,16 +63,16 @@ variable "rds_instance_class" {
   default = "db.t4g.medium"
 }
 
-variable "desired_workers_count" {
+variable "desired_max_workers_count" {
   default = "1"
 }
 
 variable "allowed_extra_security_groups_ids" {
-  type = list(string)
+  type    = list(string)
   default = []
 }
 variable "force_new_ecs_service_deployment" {
-  type = bool
+  type    = bool
   default = true
 }
 variable "extra_airflow_task_common_environment" {
@@ -84,17 +84,17 @@ variable "extra_airflow_task_common_environment" {
 }
 
 variable "sqs_arns_list" {
-  type = list(string)
+  type    = list(string)
   default = []
 }
 
 variable "allowed_cidr_blocks" {
-  type = list(string)
+  type    = list(string)
   default = []
 }
 
 variable "rds_publicly_accessible" {
-  type = bool
+  type    = bool
   default = false
 }
 
@@ -122,8 +122,8 @@ variable "worker_memory" {
 
 variable "custom_worker_policy_statement" {
   type = list(object({
-    Effect  = string
-    Action = list(string)
+    Effect   = string
+    Action   = list(string)
     Resource = list(string)
   }))
   default = []
@@ -131,16 +131,16 @@ variable "custom_worker_policy_statement" {
 }
 
 variable "number_of_schedulers" {
-  type = number
+  type    = number
   default = 1
 }
 
 variable "scheduler_cpu" {
-  type = number
+  type    = number
   default = 1024
 }
 variable "scheduler_memory" {
-  type = number
+  type    = number
   default = 2048
 }
 
@@ -158,7 +158,7 @@ variable "stage" {
 }
 
 variable "worker_cmd" {
-  type = list(string)
+  type    = list(string)
   default = []
 }
 
@@ -166,11 +166,11 @@ variable "subdomain" {
   default = "null"
 }
 
-variable "db_allocated_storage" {
-  type = number
+variable "rds_allocated_storage" {
+  type    = number
   default = 20
 }
-variable "db_max_allocated_storage" {
-  type = number
+variable "rds_max_allocated_storage" {
+  type    = number
   default = 100
 }

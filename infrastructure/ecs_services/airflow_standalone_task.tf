@@ -36,19 +36,19 @@ resource "aws_ecs_task_definition" "airflow_standalone_task" {
   requires_compatibilities = ["FARGATE"]
   container_definitions = jsonencode([
     {
-      name             = "airflow"
-      image            = join(":", [aws_ecr_repository.airflow.repository_url, "latest"])
-      cpu              = 256
-      memory           = 512
-      essential        = true
-      command          = ["version"]
-      environment      = var.airflow_task_common_environment
-      user             = "50000:0"
+      name        = "airflow"
+      image       = join(":", [aws_ecr_repository.airflow.repository_url, "latest"])
+      cpu         = 256
+      memory      = 512
+      essential   = true
+      command     = ["version"]
+      environment = var.airflow_task_common_environment
+      user        = "50000:0"
       # Here is an example of how to forward logs to a sidecar fluentbit log router.
       # https://docs.aws.amazon.com/AmazonECS/latest/developerguide/firelens-example-taskdefs.html#firelens-example-firehose
       logConfiguration = {
         logDriver = "awslogs"
-        options   = {
+        options = {
           awslogs-group         = aws_cloudwatch_log_group.airflow_standalone_task.name
           awslogs-region        = var.aws_region
           awslogs-stream-prefix = "airflow-standalone-task"

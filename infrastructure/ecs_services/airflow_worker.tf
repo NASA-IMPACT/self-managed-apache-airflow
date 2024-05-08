@@ -8,7 +8,7 @@ resource "aws_cloudwatch_log_group" "airflow_worker" {
 
 resource "aws_ecs_task_definition" "airflow_worker" {
   family             = "${var.prefix}-worker"
-  cpu                = var.worker_cpu # 4096
+  cpu                = var.worker_cpu    # 4096
   memory             = var.worker_memory # 4096 *2
   execution_role_arn = aws_iam_role.ecs_task_execution_role.arn
   task_role_arn      = aws_iam_role.airflow_task.arn
@@ -67,7 +67,7 @@ resource "aws_security_group" "airflow_worker_service" {
 }
 
 resource "aws_ecs_service" "airflow_worker" {
-  depends_on = [ null_resource.build_worker_ecr_image ,  aws_ecr_repository.airflow ]
+  depends_on      = [null_resource.build_worker_ecr_image, aws_ecr_repository.airflow]
   name            = "${var.prefix}-worker"
   task_definition = aws_ecs_task_definition.airflow_worker.family
   cluster         = aws_ecs_cluster.airflow.arn
@@ -88,8 +88,8 @@ resource "aws_ecs_service" "airflow_worker" {
     assign_public_ip = false
     security_groups  = [aws_security_group.airflow_worker_service.id]
   }
-  platform_version     = "1.4.0"
-  scheduling_strategy  = "REPLICA"
+  platform_version    = "1.4.0"
+  scheduling_strategy = "REPLICA"
   capacity_provider_strategy {
     capacity_provider = "FARGATE"
     weight            = 1

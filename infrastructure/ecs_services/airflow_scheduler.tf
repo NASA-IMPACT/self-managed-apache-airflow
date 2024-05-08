@@ -104,7 +104,7 @@ resource "aws_ecs_task_definition" "airflow_scheduler" {
 }
 
 resource "aws_security_group" "airflow_scheduler_service" {
-  name = "${var.prefix}-scheduler"
+  name        = "${var.prefix}-scheduler"
   description = "Deny all incoming traffic"
   vpc_id      = var.vpc_id
   egress {
@@ -117,8 +117,8 @@ resource "aws_security_group" "airflow_scheduler_service" {
 
 
 resource "aws_ecs_service" "airflow_scheduler" {
-  name = "${var.prefix}-scheduler"
-  depends_on = [ null_resource.build_ecr_image ,  aws_ecr_repository.airflow ]
+  name       = "${var.prefix}-scheduler"
+  depends_on = [null_resource.build_ecr_image, aws_ecr_repository.airflow]
   # Note: If a revision is not specified, the latest ACTIVE revision is used.
   task_definition = aws_ecs_task_definition.airflow_scheduler.family
   cluster         = aws_ecs_cluster.airflow.arn
@@ -129,11 +129,8 @@ resource "aws_ecs_service" "airflow_scheduler" {
   deployment_maximum_percent         = 200
   deployment_minimum_healthy_percent = 100
   desired_count                      = var.number_of_schedulers
-  lifecycle {
-    ignore_changes = [desired_count]
-  }
-  enable_execute_command = true
-  launch_type            = "FARGATE"
+  enable_execute_command             = true
+  launch_type                        = "FARGATE"
   network_configuration {
     subnets          = var.private_subnet_ids
     assign_public_ip = false
