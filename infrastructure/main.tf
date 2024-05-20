@@ -46,9 +46,14 @@ module "secrets" {
 
 resource "local_file" "airflow_configuration" {
   content = templatefile("${path.root}/configuration/airflow.cfg.tmpl",
-    {
+    merge({
       prefix = var.prefix
-  })
+      },
+      var.extra_airflow_configuration
+    )
+
+
+  )
   filename = "../${path.root}/infrastructure/configuration/airflow.cfg"
 }
 

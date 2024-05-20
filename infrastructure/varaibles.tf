@@ -174,3 +174,8 @@ variable "rds_max_allocated_storage" {
   type    = number
   default = 100
 }
+
+variable "extra_airflow_configuration" {
+  type    = map(any)
+  default = {}
+}
