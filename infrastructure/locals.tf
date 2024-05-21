@@ -15,7 +15,7 @@ locals {
     },
     {
       name  = "AIRFLOW__LOGGING__REMOTE_BASE_LOG_FOLDER"
-      value = "s3://${var.state_backetname}/remote_base_log_folder/"
+      value = "s3://${var.state_bucketname}/remote_base_log_folder/"
     },
     {
       name  = "X_AIRFLOW_SQS_CELERY_BROKER_PREDEFINED_QUEUE_URL"

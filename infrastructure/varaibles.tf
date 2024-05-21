@@ -29,7 +29,7 @@ variable "public_subnets_tagname" {
 }
 
 
-variable "state_backetname" {
+variable "state_bucketname" {
   description = "Bucket name without prefixing it with 's3://'. This bucket will be used to hold dags,logs and terraform states"
 }
 

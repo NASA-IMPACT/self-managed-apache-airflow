@@ -26,7 +26,7 @@ data "aws_subnets" "private_subnets_id" {
 }
 
 data "aws_s3_bucket" "airflow_bucket" {
-  bucket = var.state_backetname
+  bucket = var.state_bucketname
 }
 
 data "aws_subnets" "public_subnets_id" {
