@@ -91,6 +91,7 @@ module "ecs_services" {
   stage                          = var.stage
   worker_cmd                     = var.worker_cmd
   subdomain                      = var.subdomain
+  workers_logs_retention_days    = var.workers_logs_retention_days
 }
 
 resource "null_resource" "airflow_create_airflow_user" {

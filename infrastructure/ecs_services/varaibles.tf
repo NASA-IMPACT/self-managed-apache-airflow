@@ -98,3 +98,7 @@ variable "worker_cmd" {
 
 variable "subdomain" {
 }
+
+variable "workers_logs_retention_days" {
+  type = number
+}

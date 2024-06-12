@@ -179,3 +179,8 @@ variable "extra_airflow_configuration" {
   type    = map(any)
   default = {}
 }
+
+variable "workers_logs_retention_days" {
+  type = number
+  default = 1
+}

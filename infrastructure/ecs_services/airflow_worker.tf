@@ -1,7 +1,8 @@
 # Send worker logs to this Cloud Watch log group
+
 resource "aws_cloudwatch_log_group" "airflow_worker" {
   name_prefix       = "/${var.prefix}/airflow-worker/"
-  retention_in_days = 1
+  retention_in_days = var.workers_logs_retention_days
 }
 
 
