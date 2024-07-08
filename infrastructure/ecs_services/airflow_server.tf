@@ -50,7 +50,7 @@ resource "aws_ecs_task_definition" "airflow_webserver" {
         [
       {
             name  = "SERVICES_HASH"
-            value = [local.config_folder_hash, local.services_build_path_hash]
+            value = "${local.config_folder_hash},${local.services_build_path_hash}"
       }
 
       ])

@@ -62,7 +62,7 @@ resource "aws_ecs_task_definition" "airflow_metrics" {
         [
       {
             name  = "SERVICES_HASH"
-            value = local.services_hashes
+            value = join(",", local.services_hashes)
       }
 
       ])

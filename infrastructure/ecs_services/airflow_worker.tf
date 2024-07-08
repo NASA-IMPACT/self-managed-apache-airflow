@@ -41,7 +41,7 @@ resource "aws_ecs_task_definition" "airflow_worker" {
           },
           {
             name  = "WORKER_HASHES"
-            value = local.workers_hashes
+            value = join(",", local.workers_hashes)
           }
         ]
       )
