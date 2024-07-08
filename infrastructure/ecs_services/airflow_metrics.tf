@@ -29,7 +29,7 @@ resource "aws_ecs_task_definition" "airflow_metrics" {
   network_mode       = "awsvpc"
   runtime_platform {
     operating_system_family = "LINUX"
-    cpu_architecture        = "X86_64"
+    cpu_architecture        = "ARM64"
   }
   requires_compatibilities = ["FARGATE"]
   volume {
@@ -109,5 +109,6 @@ resource "aws_ecs_service" "airflow_metrics" {
   }
   platform_version     = "1.4.0"
   scheduling_strategy  = "REPLICA"
-  # force_new_deployment = var.force_new_ecs_service_deployment
+  # Update from scripts folder
+  force_new_deployment = var.force_new_ecs_service_deployment
 }

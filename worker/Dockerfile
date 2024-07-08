@@ -1,4 +1,4 @@
-FROM --platform=linux/amd64 osgeo/gdal:latest
+FROM --platform=linux/arm64 osgeo/gdal:latest
 
 RUN apt-get -y update \
         && apt install -y python3-pip \

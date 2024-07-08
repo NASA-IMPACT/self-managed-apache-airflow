@@ -102,3 +102,6 @@ variable "subdomain" {
 variable "workers_logs_retention_days" {
   type = number
 }
+variable "efs_allowed_cider_block" {
+  type = list(string)
+}

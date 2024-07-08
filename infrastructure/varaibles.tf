@@ -184,3 +184,8 @@ variable "workers_logs_retention_days" {
   type = number
   default = 1
 }
+
+variable "efs_allowed_cider_block" {
+  type = list(string)
+  default = ["10.0.0.0/16"]
+}

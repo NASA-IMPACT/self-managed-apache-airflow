@@ -92,6 +92,7 @@ module "ecs_services" {
   worker_cmd                     = var.worker_cmd
   subdomain                      = var.subdomain
   workers_logs_retention_days    = var.workers_logs_retention_days
+  efs_allowed_cider_block        = var.efs_allowed_cider_block
 }
 
 resource "null_resource" "airflow_create_airflow_user" {

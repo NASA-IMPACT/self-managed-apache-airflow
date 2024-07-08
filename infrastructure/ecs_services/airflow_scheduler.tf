@@ -45,22 +45,22 @@ resource "aws_ecs_task_definition" "airflow_scheduler" {
   network_mode       = "awsvpc"
   runtime_platform {
     operating_system_family = "LINUX"
-    cpu_architecture        = "X86_64"
+    cpu_architecture        = "ARM64"
   }
   requires_compatibilities = ["FARGATE"]
-  volume {
-    name = "efs-${var.prefix}"
-    efs_volume_configuration {
-      file_system_id          = aws_efs_file_system.efs.id
-      root_directory          = "/mnt/data"
-      transit_encryption      = "ENABLED"
-      transit_encryption_port = 2999
-      authorization_config {
-        access_point_id = aws_efs_access_point.access.id
-        iam             = "ENABLED"
-      }
-    }
-  }
+#  volume {
+#    name = "efs-${var.prefix}"
+#    efs_volume_configuration {
+#      file_system_id          = aws_efs_file_system.efs.id
+#      root_directory          = "/mnt/data"
+#      transit_encryption      = "ENABLED"
+#      transit_encryption_port = 2999
+#      authorization_config {
+#        access_point_id = aws_efs_access_point.access.id
+#        iam             = "ENABLED"
+#      }
+#    }
+#  }
 
   container_definitions = jsonencode([
     {
@@ -68,13 +68,13 @@ resource "aws_ecs_task_definition" "airflow_scheduler" {
       image  = join(":", [aws_ecr_repository.airflow.repository_url, "latest"])
       cpu    = var.scheduler_cpu
       memory = var.scheduler_memory
-      mountPoints : [
-        {
-          "containerPath" : "/opt/airflow/dags_efs",
-          "sourceVolume" : "efs-${var.prefix}"
-
-        }
-      ]
+#      mountPoints : [
+#        {
+#          "containerPath" : "/opt/airflow/dags_efs",
+#          "sourceVolume" : "efs-${var.prefix}"
+#
+#        }
+#      ]
       healthcheck = {
         command = [
           "CMD-SHELL",
@@ -143,7 +143,6 @@ resource "aws_ecs_service" "airflow_scheduler" {
   # Note: If a revision is not specified, the latest ACTIVE revision is used.
   task_definition = aws_ecs_task_definition.airflow_scheduler.family
   cluster         = aws_ecs_cluster.airflow.arn
-
   deployment_controller {
     type = "ECS"
   }
@@ -159,7 +158,8 @@ resource "aws_ecs_service" "airflow_scheduler" {
   }
   platform_version     = "1.4.0"
   scheduling_strategy  = "REPLICA"
-  # force_new_deployment = var.force_new_ecs_service_deployment
+  # Update from requirements
+  force_new_deployment = var.force_new_ecs_service_deployment
 }
 
 

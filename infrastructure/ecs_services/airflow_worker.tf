@@ -16,14 +16,14 @@ resource "aws_ecs_task_definition" "airflow_worker" {
   network_mode       = "awsvpc"
   runtime_platform {
     operating_system_family = "LINUX"
-    cpu_architecture        = "X86_64"
+    cpu_architecture        = "ARM64"
   }
   requires_compatibilities = ["FARGATE"]
   volume {
     name = "efs-${var.prefix}"
     efs_volume_configuration {
       file_system_id          = aws_efs_file_system.efs.id
-      root_directory          = "/mnt/data"
+      #root_directory          = "/mnt/data"
       transit_encryption      = "ENABLED"
       transit_encryption_port = 2999
       authorization_config {
@@ -115,7 +115,8 @@ resource "aws_ecs_service" "airflow_worker" {
     capacity_provider = "FARGATE"
     weight            = 1
   }
-  # force_new_deployment = var.force_new_ecs_service_deployment
+  # Update from workers folder
+  force_new_deployment = var.force_new_ecs_service_deployment
 
 }
 

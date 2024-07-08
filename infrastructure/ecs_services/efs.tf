@@ -21,7 +21,20 @@ resource "aws_efs_file_system" "efs" {
 
 resource "aws_efs_access_point" "access" {
   file_system_id = aws_efs_file_system.efs.id
+    posix_user {
+    uid = 50000
+    gid = 0
+  }
+  root_directory {
+    path = "/mnt/data"
+    creation_info {
+      owner_uid = 50000
+      owner_gid = 0
+      permissions = 777
+    }
+  }
 }
+
 resource "aws_security_group" "efs" {
   name   = "${var.prefix}-efs-sg"
   vpc_id = var.vpc_id
@@ -31,14 +44,14 @@ resource "aws_security_group" "efs" {
     from_port       = 2999
     to_port         = 2999
     security_groups = local.task_security_group_ids
-    cidr_blocks     = ["10.0.0.0/16"]
+    cidr_blocks     = var.efs_allowed_cider_block
   }
   ingress {
     description = "NFS traffic from VPC"
     from_port   = 2049
     to_port     = 2049
     protocol    = "tcp"
-    cidr_blocks = ["10.0.0.0/16"]
+    cidr_blocks = var.efs_allowed_cider_block
   }
 }
 resource "aws_efs_mount_target" "mount" {
