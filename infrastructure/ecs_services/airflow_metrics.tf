@@ -34,16 +34,6 @@ resource "aws_ecs_task_definition" "airflow_metrics" {
   requires_compatibilities = ["FARGATE"]
   volume {
     name = "efs-${var.prefix}"
-    efs_volume_configuration {
-      file_system_id          = aws_efs_file_system.efs.id
-      root_directory          = "/mnt/data"
-      transit_encryption      = "ENABLED"
-      transit_encryption_port = 2999
-      authorization_config {
-        access_point_id = aws_efs_access_point.access.id
-        iam             = "ENABLED"
-      }
-    }
   }
   container_definitions = jsonencode([
     {
@@ -54,13 +44,6 @@ resource "aws_ecs_task_definition" "airflow_metrics" {
       essential = true
       entryPoint = [
         "python"
-      ]
-      mountPoints : [
-        {
-          "containerPath" : "/opt/airflow/dags_efs",
-          "sourceVolume" : "efs-${var.prefix}"
-
-        }
       ]
       command = [
         "scripts/put_airflow_worker_autoscaling_metric_data.py",
@@ -75,7 +58,14 @@ resource "aws_ecs_task_definition" "airflow_metrics" {
         "--period",
         "30"
       ]
-      environment = var.airflow_task_common_environment
+      environment = concat(var.airflow_task_common_environment,
+        [
+      {
+            name  = "SERVICES_HASH"
+            value = local.services_hashes
+      }
+
+      ])
       user        = "50000:0"
       logConfiguration = {
         logDriver = "awslogs"

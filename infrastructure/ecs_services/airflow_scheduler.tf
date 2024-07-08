@@ -48,19 +48,6 @@ resource "aws_ecs_task_definition" "airflow_scheduler" {
     cpu_architecture        = "ARM64"
   }
   requires_compatibilities = ["FARGATE"]
-#  volume {
-#    name = "efs-${var.prefix}"
-#    efs_volume_configuration {
-#      file_system_id          = aws_efs_file_system.efs.id
-#      root_directory          = "/mnt/data"
-#      transit_encryption      = "ENABLED"
-#      transit_encryption_port = 2999
-#      authorization_config {
-#        access_point_id = aws_efs_access_point.access.id
-#        iam             = "ENABLED"
-#      }
-#    }
-#  }
 
   container_definitions = jsonencode([
     {
@@ -68,13 +55,7 @@ resource "aws_ecs_task_definition" "airflow_scheduler" {
       image  = join(":", [aws_ecr_repository.airflow.repository_url, "latest"])
       cpu    = var.scheduler_cpu
       memory = var.scheduler_memory
-#      mountPoints : [
-#        {
-#          "containerPath" : "/opt/airflow/dags_efs",
-#          "sourceVolume" : "efs-${var.prefix}"
-#
-#        }
-#      ]
+
       healthcheck = {
         command = [
           "CMD-SHELL",
@@ -92,7 +73,14 @@ resource "aws_ecs_task_definition" "airflow_scheduler" {
       linuxParameters = {
         initProcessEnabled = true
       }
-      environment = var.airflow_task_common_environment
+      environment = concat(var.airflow_task_common_environment,
+        [
+      {
+            name  = "SERVICES_HASH"
+            value = local.services_hashes
+      }
+
+      ])
       user        = "50000:0"
       logConfiguration = {
         logDriver = "awslogs"
@@ -159,7 +147,7 @@ resource "aws_ecs_service" "airflow_scheduler" {
   platform_version     = "1.4.0"
   scheduling_strategy  = "REPLICA"
   # Update from requirements
-  force_new_deployment = var.force_new_ecs_service_deployment
+  #force_new_deployment = var.force_new_ecs_service_deployment
 }
 
 

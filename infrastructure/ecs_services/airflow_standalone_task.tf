@@ -34,32 +34,13 @@ resource "aws_ecs_task_definition" "airflow_standalone_task" {
     cpu_architecture        = "ARM64"
   }
   requires_compatibilities = ["FARGATE"]
-#  volume {
-#    name = "efs-${var.prefix}"
-#    efs_volume_configuration {
-#      file_system_id          = aws_efs_file_system.efs.id
-#      root_directory          = "/mnt/data"
-#      transit_encryption      = "ENABLED"
-#      transit_encryption_port = 2999
-#      authorization_config {
-#        access_point_id = aws_efs_access_point.access.id
-#        iam             = "ENABLED"
-#      }
-#    }
-#  }
+
   container_definitions = jsonencode([
     {
       name        = "airflow"
       image       = join(":", [aws_ecr_repository.airflow.repository_url, "latest"])
       cpu         = 256
       memory      = 512
-#      mountPoints : [
-#        {
-#          "containerPath" : "/opt/airflow/dags_efs",
-#          "sourceVolume" : "efs-${var.prefix}"
-#
-#        }
-#      ]
       essential   = true
       command     = ["version"]
       environment = var.airflow_task_common_environment
