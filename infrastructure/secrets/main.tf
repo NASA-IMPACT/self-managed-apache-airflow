@@ -60,12 +60,8 @@ resource "aws_secretsmanager_secret" "airflow_dag_variables" {
 }
 
 
+
 resource "aws_secretsmanager_secret_version" "airflow_dag_variables" {
   secret_id     = aws_secretsmanager_secret.airflow_dag_variables.id
-  secret_string = <<EOF
-   {
-    "db_secret_name": "${aws_secretsmanager_secret.airflow_secrets.name}"
-
-   }
-EOF
+  secret_string = jsonencode(var.airflow_custom_variables)
 }

@@ -15,9 +15,7 @@ resource "aws_ecs_task_definition" "airflow_webserver" {
   network_mode       = "awsvpc"
   runtime_platform {
     operating_system_family = "LINUX"
-    # ARM64 currently does not work because of upstream dependencies
-    # https://github.com/apache/airflow/issues/15635
-    cpu_architecture = "X86_64"
+    cpu_architecture = "ARM64"
   }
   requires_compatibilities = ["FARGATE"]
   container_definitions = jsonencode([
@@ -48,7 +46,14 @@ resource "aws_ecs_task_definition" "airflow_webserver" {
       }
       essential   = true
       command     = ["webserver"]
-      environment = var.airflow_task_common_environment
+      environment = concat(var.airflow_task_common_environment,
+        [
+      {
+            name  = "SERVICES_HASH"
+            value = "${local.config_folder_hash},${local.services_build_path_hash}"
+      }
+
+      ])
       user        = "50000:0"
       logConfiguration = {
         logDriver = "awslogs"
@@ -110,7 +115,8 @@ resource "aws_ecs_service" "airflow_webserver" {
     container_name   = "webserver"
     container_port   = 8080
   }
-  # force_new_deployment = var.force_new_ecs_service_deployment
+  # Update from services folder
+  #force_new_deployment = var.force_new_ecs_service_deployment
   # This can be used to update tasks to use a newer container image with same
   # image/tag combination (e.g., myimage:latest)
 }

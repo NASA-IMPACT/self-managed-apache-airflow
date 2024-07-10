@@ -16,23 +16,9 @@ resource "aws_ecs_task_definition" "airflow_worker" {
   network_mode       = "awsvpc"
   runtime_platform {
     operating_system_family = "LINUX"
-    cpu_architecture        = "X86_64"
+    cpu_architecture        = "ARM64"
   }
   requires_compatibilities = ["FARGATE"]
-  volume {
-    name = "efs-${var.prefix}"
-    efs_volume_configuration {
-      file_system_id          = aws_efs_file_system.efs.id
-      root_directory          = "/mnt/data"
-      transit_encryption      = "ENABLED"
-      transit_encryption_port = 2999
-      authorization_config {
-        access_point_id = aws_efs_access_point.access.id
-        iam             = "ENABLED"
-      }
-    }
-  }
-
   container_definitions = jsonencode([
     {
       name      = "worker"
@@ -41,13 +27,6 @@ resource "aws_ecs_task_definition" "airflow_worker" {
       memory    = var.worker_memory
       essential = true
       command   = var.worker_cmd != [] ? var.worker_cmd : ["celery", "worker"]
-      mountPoints : [
-        {
-          "containerPath" : "/opt/airflow/dags_efs",
-          "sourceVolume" : "efs-${var.prefix}"
-
-        }
-      ]
       linuxParameters = {
         initProcessEnabled = true
       }
@@ -59,6 +38,10 @@ resource "aws_ecs_task_definition" "airflow_worker" {
           {
             name  = "DUMB_INIT_SETSID"
             value = "0"
+          },
+          {
+            name  = "WORKER_HASHES"
+            value = join(",", local.workers_hashes)
           }
         ]
       )
@@ -115,6 +98,7 @@ resource "aws_ecs_service" "airflow_worker" {
     capacity_provider = "FARGATE"
     weight            = 1
   }
+  # Update from workers folder
   # force_new_deployment = var.force_new_ecs_service_deployment
 
 }

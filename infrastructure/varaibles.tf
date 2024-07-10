@@ -184,3 +184,11 @@ variable "workers_logs_retention_days" {
   type = number
   default = 1
 }
+
+
+
+variable "airflow_custom_variables" {
+  description = "Airflow custom variables"
+  type        = map(string)
+  default = {}
+}
