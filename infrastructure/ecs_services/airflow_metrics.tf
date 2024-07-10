@@ -32,9 +32,6 @@ resource "aws_ecs_task_definition" "airflow_metrics" {
     cpu_architecture        = "ARM64"
   }
   requires_compatibilities = ["FARGATE"]
-  volume {
-    name = "efs-${var.prefix}"
-  }
   container_definitions = jsonencode([
     {
       name      = "metrics"

@@ -40,6 +40,7 @@ module "secrets" {
   airflow_admin_username = var.airflow_admin_username
   airflow_admin_password = var.airflow_admin_password
   webserver_url          = module.ecs_services.airflow_url
+  airflow_custom_variables = merge({db_secret_name = module.secrets.airflow_secrets}, var.airflow_custom_variables)
 }
 
 
@@ -92,7 +93,6 @@ module "ecs_services" {
   worker_cmd                     = var.worker_cmd
   subdomain                      = var.subdomain
   workers_logs_retention_days    = var.workers_logs_retention_days
-  efs_allowed_cider_block        = var.efs_allowed_cider_block
 }
 
 resource "null_resource" "airflow_create_airflow_user" {
