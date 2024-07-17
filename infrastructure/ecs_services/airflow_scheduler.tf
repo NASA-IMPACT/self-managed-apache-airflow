@@ -36,6 +36,7 @@ resource "aws_ssm_parameter" "airflow_ecs_cloudwatch_agent_config" {
 }
 
 
+
 resource "aws_ecs_task_definition" "airflow_scheduler" {
   family             = "${var.prefix}-scheduler"
   cpu                = var.scheduler_cpu
@@ -45,7 +46,7 @@ resource "aws_ecs_task_definition" "airflow_scheduler" {
   network_mode       = "awsvpc"
   runtime_platform {
     operating_system_family = "LINUX"
-    cpu_architecture        = "X86_64"
+    cpu_architecture        = var.task_cpu_architecture
   }
   requires_compatibilities = ["FARGATE"]
 

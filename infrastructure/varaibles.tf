@@ -196,3 +196,15 @@ variable "airflow_custom_variables" {
 variable "infrastructure_foldername"{
   default = "infrastructure"
 }
+
+
+variable "task_cpu_architecture" {
+  description = "The architecture type for the instance. Valid options are 'ARM64' or 'X86_64'."
+  type        = string
+  default     = "X86_64"
+
+  validation {
+    condition     = contains(["ARM64", "X86_64"], var.task_cpu_architecture)
+    error_message = "The architecture type must be either 'ARM64' or 'X86_64'."
+  }
+}

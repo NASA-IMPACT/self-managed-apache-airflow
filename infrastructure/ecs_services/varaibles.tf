@@ -102,3 +102,6 @@ variable "subdomain" {
 variable "workers_logs_retention_days" {
   type = number
 }
+variable "task_cpu_architecture" {
+
+}
