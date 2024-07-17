@@ -16,7 +16,7 @@ resource "aws_ecs_task_definition" "airflow_worker" {
   network_mode       = "awsvpc"
   runtime_platform {
     operating_system_family = "LINUX"
-    cpu_architecture        = "AMD64"
+    cpu_architecture        = "X86_64"
   }
   requires_compatibilities = ["FARGATE"]
   container_definitions = jsonencode([
