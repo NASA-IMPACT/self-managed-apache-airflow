@@ -67,7 +67,7 @@ resource "null_resource" "build_worker_ecr_image" {
     command = <<EOF
           cd ../${path.root}
           aws ecr get-login-password --region ${var.aws_region} | docker login --username AWS --password-stdin ${var.account_id}.dkr.ecr.${var.aws_region}.amazonaws.com
-          docker buildx build --platform linux/amd64,linux/arm64 -t ${aws_ecr_repository.worker_airflow.repository_url}:latest -f airflow_worker/Dockerfile .
+          docker buildx build -t ${aws_ecr_repository.worker_airflow.repository_url}:latest -f airflow_worker/Dockerfile .
           docker push ${aws_ecr_repository.worker_airflow.repository_url}:latest
           cd -
        EOF
