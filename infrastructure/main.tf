@@ -55,7 +55,7 @@ resource "local_file" "airflow_configuration" {
 
 
   )
-  filename = "../${path.root}/infrastructure/configuration/airflow.cfg"
+  filename = "../${path.root}/${var.infrastructure_foldername}/configuration/airflow.cfg"
 }
 
 

@@ -192,3 +192,7 @@ variable "airflow_custom_variables" {
   type        = map(string)
   default = {}
 }
+
+variable "infrastructure_foldername"{
+  default = "infrastructure"
+}
