@@ -29,10 +29,6 @@ resource "aws_ecs_task_definition" "airflow_standalone_task" {
   execution_role_arn = aws_iam_role.ecs_task_execution_role.arn
   task_role_arn      = aws_iam_role.airflow_task.arn
   network_mode       = "awsvpc"
-  runtime_platform {
-    operating_system_family = "LINUX"
-    cpu_architecture        = "ARM64"
-  }
   requires_compatibilities = ["FARGATE"]
 
   container_definitions = jsonencode([
