@@ -39,6 +39,7 @@ resource "aws_ssm_parameter" "airflow_ecs_cloudwatch_agent_config" {
 
 resource "aws_ecs_task_definition" "airflow_scheduler" {
   family             = "${var.prefix}-scheduler"
+  depends_on      = [null_resource.build_ecr_image, aws_ecr_repository.airflow]
   cpu                = var.scheduler_cpu
   memory             = var.scheduler_memory
   execution_role_arn = aws_iam_role.ecs_task_execution_role.arn

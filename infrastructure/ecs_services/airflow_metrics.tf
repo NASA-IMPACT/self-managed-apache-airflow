@@ -22,6 +22,7 @@ resource "aws_security_group" "airflow_metrics_service" {
 
 resource "aws_ecs_task_definition" "airflow_metrics" {
   family             = "${var.prefix}-metrics"
+  depends_on      = [null_resource.build_ecr_image, aws_ecr_repository.airflow]
   cpu                = 256
   memory             = 512
   execution_role_arn = aws_iam_role.ecs_task_execution_role.arn

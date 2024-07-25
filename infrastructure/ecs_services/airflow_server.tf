@@ -8,6 +8,7 @@ resource "aws_cloudwatch_log_group" "airflow_webserver" {
 
 resource "aws_ecs_task_definition" "airflow_webserver" {
   family             = "${var.prefix}-webserver"
+  depends_on      = [null_resource.build_ecr_image, aws_ecr_repository.airflow]
   cpu                = 1024
   memory             = 2048
   execution_role_arn = aws_iam_role.ecs_task_execution_role.arn

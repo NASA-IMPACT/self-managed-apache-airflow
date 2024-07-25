@@ -145,13 +145,13 @@ variable "scheduler_memory" {
 }
 
 variable "contact" {
-  default = "CSDA Admin"
+  default = "VEDA Admin"
 }
 variable "domain_name" {
 
 }
 variable "project" {
-  default = "CSDA"
+  default = "SM2A"
 }
 variable "stage" {
 
