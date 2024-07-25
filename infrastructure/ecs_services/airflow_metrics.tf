@@ -22,6 +22,7 @@ resource "aws_security_group" "airflow_metrics_service" {
 
 resource "aws_ecs_task_definition" "airflow_metrics" {
   family             = "${var.prefix}-metrics"
+  depends_on      = [null_resource.build_ecr_image, aws_ecr_repository.airflow]
   cpu                = 256
   memory             = 512
   execution_role_arn = aws_iam_role.ecs_task_execution_role.arn
@@ -29,7 +30,7 @@ resource "aws_ecs_task_definition" "airflow_metrics" {
   network_mode       = "awsvpc"
   runtime_platform {
     operating_system_family = "LINUX"
-    cpu_architecture        = "ARM64"
+    cpu_architecture        = var.task_cpu_architecture
   }
   requires_compatibilities = ["FARGATE"]
   container_definitions = jsonencode([

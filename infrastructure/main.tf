@@ -46,6 +46,7 @@ module "secrets" {
 
 
 resource "local_file" "airflow_configuration" {
+
   content = templatefile("${path.root}/configuration/airflow.cfg.tmpl",
     merge({
       prefix = var.prefix
@@ -55,7 +56,7 @@ resource "local_file" "airflow_configuration" {
 
 
   )
-  filename = "../${path.root}/infrastructure/configuration/airflow.cfg"
+  filename = "../${path.root}/${var.infrastructure_foldername}/configuration/airflow.cfg"
 }
 
 
@@ -93,6 +94,7 @@ module "ecs_services" {
   worker_cmd                     = var.worker_cmd
   subdomain                      = var.subdomain
   workers_logs_retention_days    = var.workers_logs_retention_days
+  task_cpu_architecture          = var.task_cpu_architecture
 }
 
 resource "null_resource" "airflow_create_airflow_user" {
