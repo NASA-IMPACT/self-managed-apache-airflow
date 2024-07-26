@@ -39,10 +39,10 @@ resource "aws_ecr_lifecycle_policy" "ecr_policy" {
 }
 resource "null_resource" "build_ecr_image" {
   triggers = {
-    services_build_path_hash         = local.services_build_path_hash
-    scripts_folder_hash       = local.scripts_folder_hash
-    dag_folder_hash    = local.dag_folder_hash
-    config_folder_hash = local.config_folder_hash
+    services_build_path_hash = local.services_build_path_hash
+    scripts_folder_hash      = local.scripts_folder_hash
+    dag_folder_hash          = local.dag_folder_hash
+    config_folder_hash       = local.config_folder_hash
   }
 
   provisioner "local-exec" {

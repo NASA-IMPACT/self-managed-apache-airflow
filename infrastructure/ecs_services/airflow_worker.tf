@@ -9,7 +9,7 @@ resource "aws_cloudwatch_log_group" "airflow_worker" {
 
 resource "aws_ecs_task_definition" "airflow_worker" {
   family             = "${var.prefix}-worker"
-  depends_on      = [null_resource.build_worker_ecr_image, aws_ecr_repository.airflow]
+  depends_on         = [null_resource.build_worker_ecr_image, aws_ecr_repository.airflow]
   cpu                = var.worker_cpu    # 4096
   memory             = var.worker_memory # 4096 *2
   execution_role_arn = aws_iam_role.ecs_task_execution_role.arn

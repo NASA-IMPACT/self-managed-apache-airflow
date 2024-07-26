@@ -181,7 +181,7 @@ variable "extra_airflow_configuration" {
 }
 
 variable "workers_logs_retention_days" {
-  type = number
+  type    = number
   default = 1
 }
 
@@ -190,10 +190,10 @@ variable "workers_logs_retention_days" {
 variable "airflow_custom_variables" {
   description = "Airflow custom variables"
   type        = map(string)
-  default = {}
+  default     = {}
 }
 
-variable "infrastructure_foldername"{
+variable "infrastructure_foldername" {
   default = "infrastructure"
 }
 

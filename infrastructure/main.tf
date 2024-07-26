@@ -29,18 +29,18 @@ module "database" {
 
 
 module "secrets" {
-  source                 = "./secrets"
-  db_endpoint            = module.database.database_endpoint
-  db_name                = var.airflow_db.db_name
-  db_password            = module.database.database_password
-  db_port                = var.airflow_db.port
-  db_username            = var.airflow_db.username
-  fernet_key             = var.fernet_key
-  prefix                 = var.prefix
-  airflow_admin_username = var.airflow_admin_username
-  airflow_admin_password = var.airflow_admin_password
-  webserver_url          = module.ecs_services.airflow_url
-  airflow_custom_variables = merge({db_secret_name = module.secrets.airflow_secrets}, var.airflow_custom_variables)
+  source                   = "./secrets"
+  db_endpoint              = module.database.database_endpoint
+  db_name                  = var.airflow_db.db_name
+  db_password              = module.database.database_password
+  db_port                  = var.airflow_db.port
+  db_username              = var.airflow_db.username
+  fernet_key               = var.fernet_key
+  prefix                   = var.prefix
+  airflow_admin_username   = var.airflow_admin_username
+  airflow_admin_password   = var.airflow_admin_password
+  webserver_url            = module.ecs_services.airflow_url
+  airflow_custom_variables = merge({ db_secret_name = module.secrets.airflow_secrets }, var.airflow_custom_variables)
 }
 
 

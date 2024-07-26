@@ -8,7 +8,7 @@ resource "aws_cloudwatch_log_group" "airflow_webserver" {
 
 resource "aws_ecs_task_definition" "airflow_webserver" {
   family             = "${var.prefix}-webserver"
-  depends_on      = [null_resource.build_ecr_image, aws_ecr_repository.airflow]
+  depends_on         = [null_resource.build_ecr_image, aws_ecr_repository.airflow]
   cpu                = 1024
   memory             = 2048
   execution_role_arn = aws_iam_role.ecs_task_execution_role.arn
@@ -45,17 +45,17 @@ resource "aws_ecs_task_definition" "airflow_webserver" {
       linuxParameters = {
         initProcessEnabled = true
       }
-      essential   = true
-      command     = ["webserver"]
+      essential = true
+      command   = ["webserver"]
       environment = concat(var.airflow_task_common_environment,
         [
-      {
+          {
             name  = "SERVICES_HASH"
             value = "${local.config_folder_hash},${local.services_build_path_hash}"
-      }
+          }
 
       ])
-      user        = "50000:0"
+      user = "50000:0"
       logConfiguration = {
         logDriver = "awslogs"
         options = {

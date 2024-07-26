@@ -39,7 +39,7 @@ resource "aws_ssm_parameter" "airflow_ecs_cloudwatch_agent_config" {
 
 resource "aws_ecs_task_definition" "airflow_scheduler" {
   family             = "${var.prefix}-scheduler"
-  depends_on      = [null_resource.build_ecr_image, aws_ecr_repository.airflow]
+  depends_on         = [null_resource.build_ecr_image, aws_ecr_repository.airflow]
   cpu                = var.scheduler_cpu
   memory             = var.scheduler_memory
   execution_role_arn = aws_iam_role.ecs_task_execution_role.arn
@@ -77,13 +77,13 @@ resource "aws_ecs_task_definition" "airflow_scheduler" {
       }
       environment = concat(var.airflow_task_common_environment,
         [
-      {
+          {
             name  = "SERVICES_HASH"
             value = join(",", local.services_hashes)
-      }
+          }
 
       ])
-      user        = "50000:0"
+      user = "50000:0"
       logConfiguration = {
         logDriver = "awslogs"
         options = {
@@ -146,8 +146,8 @@ resource "aws_ecs_service" "airflow_scheduler" {
     assign_public_ip = false
     security_groups  = [aws_security_group.airflow_scheduler_service.id]
   }
-  platform_version     = "1.4.0"
-  scheduling_strategy  = "REPLICA"
+  platform_version    = "1.4.0"
+  scheduling_strategy = "REPLICA"
   # Update from requirements
   #force_new_deployment = var.force_new_ecs_service_deployment
 }
