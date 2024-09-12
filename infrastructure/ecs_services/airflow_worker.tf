@@ -100,7 +100,7 @@ resource "aws_ecs_service" "airflow_worker" {
     weight            = 1
   }
   # Update from workers folder
-  # force_new_deployment = var.force_new_ecs_service_deployment
+  force_new_deployment = var.force_new_ecs_service_deployment
 
 }
 

@@ -149,7 +149,7 @@ resource "aws_ecs_service" "airflow_scheduler" {
   platform_version    = "1.4.0"
   scheduling_strategy = "REPLICA"
   # Update from requirements
-  #force_new_deployment = var.force_new_ecs_service_deployment
+  force_new_deployment = var.force_new_ecs_service_deployment
 }
 
 
