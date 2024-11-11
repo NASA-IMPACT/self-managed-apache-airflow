@@ -23,6 +23,7 @@ module "database" {
   allowed_cidr_blocks         = var.allowed_cidr_blocks
   db_allocated_storage        = var.rds_allocated_storage
   db_max_allocated_storage    = var.rds_max_allocated_storage
+  backup_retention_period     = var.backup_retention_period
 }
 
 

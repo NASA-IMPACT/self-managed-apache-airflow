@@ -208,3 +208,11 @@ variable "task_cpu_architecture" {
     error_message = "The architecture type must be either 'ARM64' or 'X86_64'."
   }
 }
+
+
+variable "backup_retention_period" {
+  description = "Retain backups in days"
+  type = number
+  default = 7
+}
+
