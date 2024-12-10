@@ -212,7 +212,7 @@ variable "task_cpu_architecture" {
 
 variable "backup_retention_period" {
   description = "Retain backups in days"
-  type = number
-  default = 7
+  type        = number
+  default     = 7
 }
 
