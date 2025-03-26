@@ -98,7 +98,7 @@ module "ecs_services" {
 }
 
 resource "null_resource" "airflow_create_airflow_user" {
-  depends_on = [module.ecs_services]
+  depends_on = [module.ecs_services, module.database]
   triggers = {
     admin_password = var.airflow_admin_password
     admin_username = var.airflow_admin_username
