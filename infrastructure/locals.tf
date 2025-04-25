@@ -3,6 +3,12 @@ locals {
   account_id          = data.aws_caller_identity.current.account_id
   airflow_admin_email = var.airflow_admin_email != null ? var.airflow_admin_email : "${var.airflow_admin_username}@airflow.com"
 
+  airflow_dag_variables = {
+    # for each value in the map var.airflow_dag_variables, create a new key-value pair
+    # where the key is "AIRFLOW_VAR_" + the value of the map and the value is the value of the map
+    # to be loaded into the environment
+    for k, v in var.airflow_dag_variables : "AIRFLOW_VAR_${k}" => v
+  }
 
   airflow_task_common_environment = concat(var.extra_airflow_task_common_environment, [
     {
