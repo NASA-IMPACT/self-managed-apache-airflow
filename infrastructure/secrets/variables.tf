@@ -30,5 +30,5 @@ variable "webserver_url" {
 
 variable "airflow_custom_variables" {
   description = "Airflow custom variables"
-  type        = map(string)
+  type        = map
 }
