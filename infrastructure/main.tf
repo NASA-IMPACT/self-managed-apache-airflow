@@ -66,7 +66,7 @@ module "ecs_services" {
   source                           = "./ecs_services"
   depends_on                       = [local_file.airflow_configuration]
   account_id                       = local.account_id
-  airflow_task_common_environment  = local.airflow_task_common_environment
+  airflow_task_common_environment  = concat(local.airflow_task_common_environment, local.airflow_dag_variables)
   aws_region                       = local.aws_region
   desired_max_workers_count        = var.desired_max_workers_count
   force_new_ecs_service_deployment = var.force_new_ecs_service_deployment
