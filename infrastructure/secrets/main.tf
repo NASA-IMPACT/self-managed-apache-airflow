@@ -32,11 +32,10 @@ resource "aws_secretsmanager_secret_version" "celery_result_backend" {
   secret_string = "db+postgresql://${var.db_username}:${var.db_password}@${var.db_endpoint}/${var.db_name}"
 }
 
+# This secret is for the Airflow DB and admin user.
 resource "aws_secretsmanager_secret" "airflow_secrets" {
   name = "${var.prefix}-Airflow-master-secrets"
 }
-
-
 
 resource "aws_secretsmanager_secret_version" "airflow_secrets" {
   secret_id     = aws_secretsmanager_secret.airflow_secrets.id
@@ -49,19 +48,17 @@ resource "aws_secretsmanager_secret_version" "airflow_secrets" {
     "airflow_admin_username": "${var.airflow_admin_username}",
     "airflow_admin_password": "${var.airflow_admin_password}",
     "airflow_webserver_url": "${var.webserver_url}"
-
    }
 EOF
 }
 
 
-resource "aws_secretsmanager_secret" "airflow_dag_variables" {
-  name = "${var.prefix}/airflow/variables/aws_dags_variables"
+# These secrets are values which are used by DAGs, but are sensitive and should not be passed through the container environment
+resource "aws_secretsmanager_secret" "aws_dag_secrets" {
+  name = "${var.prefix}/airflow/variables/aws_dag_secrets"
 }
 
-
-
-resource "aws_secretsmanager_secret_version" "airflow_dag_variables" {
-  secret_id     = aws_secretsmanager_secret.airflow_dag_variables.id
+resource "aws_secretsmanager_secret_version" "aws_dag_secrets" {
+  secret_id     = aws_secretsmanager_secret.aws_dag_secrets.id
   secret_string = jsonencode(var.airflow_custom_variables)
 }

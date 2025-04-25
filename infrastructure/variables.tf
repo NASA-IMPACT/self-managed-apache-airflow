@@ -187,8 +187,8 @@ variable "workers_logs_retention_days" {
 
 
 
-variable "airflow_custom_variables" {
-  description = "Airflow custom variables"
+variable "airflow_dag_secrets" {
+  description = "Airflow DAG secrets"
   type        = map(any)
   default     = {}
 }
