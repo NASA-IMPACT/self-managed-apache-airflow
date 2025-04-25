@@ -188,7 +188,13 @@ variable "workers_logs_retention_days" {
 
 
 variable "airflow_dag_secrets" {
-  description = "Airflow DAG secrets"
+  description = "Airflow DAG secrets, encoded as JSON through AWS secrets manager."
+  type        = map(any)
+  default     = {}
+}
+
+variable "airflow_dag_variables" {
+  description = "Non-sensitive Airflow variables, added to the container environment as AIRFLOW_VAR_<key_name>."
   type        = map(any)
   default     = {}
 }
