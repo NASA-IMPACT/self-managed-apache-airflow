@@ -41,7 +41,7 @@ module "secrets" {
   airflow_admin_username   = var.airflow_admin_username
   airflow_admin_password   = var.airflow_admin_password
   webserver_url            = module.ecs_services.airflow_url
-  airflow_custom_variables = merge({ db_secret_name = module.secrets.airflow_secrets }, var.airflow_custom_variables)
+  airflow_dag_secrets = merge({ db_secret_name = module.secrets.airflow_secrets }, var.airflow_dag_secrets, var.airflow_custom_variables)
 }
 
 
@@ -66,7 +66,7 @@ module "ecs_services" {
   source                           = "./ecs_services"
   depends_on                       = [local_file.airflow_configuration]
   account_id                       = local.account_id
-  airflow_task_common_environment  = local.airflow_task_common_environment
+  airflow_task_common_environment  = concat(local.airflow_task_common_environment, local.airflow_dag_variables)
   aws_region                       = local.aws_region
   desired_max_workers_count        = var.desired_max_workers_count
   force_new_ecs_service_deployment = var.force_new_ecs_service_deployment

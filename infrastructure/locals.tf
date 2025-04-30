@@ -3,6 +3,11 @@ locals {
   account_id          = data.aws_caller_identity.current.account_id
   airflow_admin_email = var.airflow_admin_email != null ? var.airflow_admin_email : "${var.airflow_admin_username}@airflow.com"
 
+  airflow_dag_variables = flatten([
+      for key, value in var.airflow_dag_variables:
+      ["AIRFLOW_VAR_${key}", value]
+    ])
+  
 
   airflow_task_common_environment = concat(var.extra_airflow_task_common_environment, [
     {
