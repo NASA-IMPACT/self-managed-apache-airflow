@@ -1,13 +1,11 @@
 locals {
-
+  subdomain           = var.subdomain == "null" ? var.stage : var.subdomain
   services_build_path = "../${path.root}/airflow_services"
   dag_folder_path     = "../${path.root}/dags"
   scripts_path        = "../${path.root}/scripts"
   config_path         = "../${path.root}/infrastructure/configuration"
   worker_build_path   = "../${path.root}/airflow_worker"
   config_files        = [for f in fileset(local.config_path, "**") : f if f != "airflow.cfg"]
-
-
 }
 
 

@@ -1,8 +1,3 @@
-
-locals {
-  subdomain = var.subdomain == "null" ? var.stage : var.subdomain
-}
-
 resource "aws_acm_certificate" "ecs-domain-certificate" {
   domain_name       = "${lower(local.subdomain)}.${var.domain_name}"
   validation_method = "DNS"
