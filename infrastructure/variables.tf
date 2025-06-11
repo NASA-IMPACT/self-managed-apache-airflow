@@ -208,3 +208,9 @@ variable "task_cpu_architecture" {
     error_message = "The architecture type must be either 'ARM64' or 'X86_64'."
   }
 }
+
+variable "airflow_version" {
+  description = "The version of Airflow to use in the DB init step. Defaults to '2.8.4'."
+  type        = string
+  default     = "2.8.4"
+}
