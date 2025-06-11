@@ -36,8 +36,8 @@ ENV PATH $PATH:/home/airflow/.local/bin
 COPY --chown=airflow:airflow requirements.txt "${AIRFLOW_HOME}/requirements.txt"
 
 RUN pip install --upgrade pip \
-    && pip install "apache-airflow[celery,amazon]==2.7.0" --constraint "https://raw.githubusercontent.com/apache/airflow/constraints-2.7.0/constraints-3.10.txt" \
-    && pip install --no-cache-dir -r requirements.txt -c "https://raw.githubusercontent.com/apache/airflow/constraints-2.7.0/constraints-3.10.txt"
+    && pip install "apache-airflow[celery,amazon]==2.8.4" --constraint "https://raw.githubusercontent.com/apache/airflow/constraints-2.8.4/constraints-3.10.txt" \
+    && pip install --no-cache-dir -r requirements.txt -c "https://raw.githubusercontent.com/apache/airflow/constraints-2.8.4/constraints-3.10.txt"
 
 
 COPY --chown=airflow:airflow dags "${AIRFLOW_HOME}/dags"
