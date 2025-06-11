@@ -1,8 +1,3 @@
-
-locals {
-  subdomain = var.subdomain == "null" ? var.stage : var.subdomain
-}
-
 resource "aws_alb" "airflow_webserver" {
   name            = "${var.prefix}-webserver"
   internal        = false
@@ -50,8 +45,22 @@ resource "aws_alb_listener" "ecs-alb-https" {
   depends_on = [aws_alb_target_group.ecs-default-target-grp]
 }
 
+resource "aws_alb_listener" "ecs-alb-http-to-https" {
+  load_balancer_arn = aws_alb.airflow_webserver.arn
+  port              = 80
+  protocol          = "HTTP"
+  default_action {
+    type = "redirect"
 
+    redirect {
+      port        = "443"
+      protocol    = "HTTPS"
+      status_code = "HTTP_301"
+    }
+  }
 
+  depends_on = [aws_alb_target_group.ecs-default-target-grp]
+}
 
 resource "aws_alb_target_group" "ecs-app-target-group" {
   name        = "${var.prefix}-app-tg"
@@ -74,8 +83,6 @@ resource "aws_alb_target_group" "ecs-app-target-group" {
   }
 }
 
-
-
 resource "aws_alb_listener_rule" "ecs-alb-listener-role" {
   listener_arn = aws_alb_listener.ecs-alb-https.arn
   action {
@@ -88,8 +95,6 @@ resource "aws_alb_listener_rule" "ecs-alb-listener-role" {
     }
   }
 }
-
-
 
 resource "aws_security_group" "airflow_webserver_alb" {
   name_prefix = "${var.prefix}-webserver-alb-"

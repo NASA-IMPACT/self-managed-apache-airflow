@@ -6,6 +6,7 @@
 
 
 
+
 resource "aws_db_instance" "airflow_db" {
   identifier_prefix      = "${var.prefix}-airflow-db-"
   allocated_storage      = var.db_allocated_storage
@@ -24,4 +25,6 @@ resource "aws_db_instance" "airflow_db" {
   password               = var.airflow_db.password
   port                   = var.airflow_db.port
   deletion_protection    = true
+  # Enable automated backups
+  backup_retention_period = var.backup_retention_period  # Retain backups
 }

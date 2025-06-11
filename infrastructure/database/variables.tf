@@ -54,3 +54,9 @@ variable "db_allocated_storage" {
 variable "db_max_allocated_storage" {
   type = number
 }
+
+variable "backup_retention_period" {
+  description = "Retain backups in days"
+  type = number
+}
+

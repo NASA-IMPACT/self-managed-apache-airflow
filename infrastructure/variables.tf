@@ -185,11 +185,23 @@ variable "workers_logs_retention_days" {
   default = 1
 }
 
-
-
+# Keeping this to avoid breaking changes for existing users. This gets combined with airflow_dag_secrets and functions the same way.
 variable "airflow_custom_variables" {
-  description = "Airflow custom variables"
-  type        = map(string)
+  description = "DEPRECATED. Please use airflow_dag_secrets and airflow_dag_variables instead."
+  type        = map(any)
+  default     = {}
+}
+
+variable "airflow_dag_secrets" {
+  # ref: https://airflow.apache.org/docs/apache-airflow/2.10.5/howto/variable.html#storing-variables-in-environment-variables
+  description = "Airflow DAG secrets, encoded as JSON through AWS secrets manager."
+  type        = map(any)
+  default     = {}
+}
+
+variable "airflow_dag_variables" {
+  description = "Non-sensitive Airflow variables, added to the container environment as AIRFLOW_VAR_<key_name>."
+  type        = map(any)
   default     = {}
 }
 
@@ -213,4 +225,10 @@ variable "airflow_version" {
   description = "The version of Airflow to use in the DB init step. Defaults to '2.8.4'."
   type        = string
   default     = "2.8.4"
+}
+
+variable "backup_retention_period" {
+  description = "Retain backups in days"
+  type        = number
+  default     = 7
 }
