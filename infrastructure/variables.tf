@@ -221,10 +221,14 @@ variable "task_cpu_architecture" {
   }
 }
 
+variable "airflow_version" {
+  description = "The version of Airflow to use in the DB init step. Defaults to '2.8.4'."
+  type        = string
+  default     = "2.8.4"
+}
 
 variable "backup_retention_period" {
   description = "Retain backups in days"
   type        = number
   default     = 7
 }
-
