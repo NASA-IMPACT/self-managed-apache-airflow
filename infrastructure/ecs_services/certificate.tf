@@ -1,5 +1,5 @@
 resource "aws_acm_certificate" "ecs-domain-certificate" {
-  domain_name       = "${lower(local.subdomain)}.${var.domain_name}"
+  domain_name       = "${lower(var.subdomain)}.${var.domain_name}"
   validation_method = "DNS"
   tags = {
     Contact = "Abdelhak"
@@ -9,7 +9,7 @@ resource "aws_acm_certificate" "ecs-domain-certificate" {
 
 
 data "aws_route53_zone" "ecs_domain" {
-  name       = "${lower(local.subdomain)}.${var.domain_name}"
+  name       = "${lower(var.stage)}.${var.domain_name}"
   private_zone = false
 }
 

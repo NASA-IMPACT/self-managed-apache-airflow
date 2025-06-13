@@ -10,7 +10,7 @@ resource "aws_alb" "airflow_webserver" {
 }
 
 resource "aws_route53_record" "ecs-alb-record" {
-  name    = "${lower(local.subdomain)}.${var.domain_name}"
+  name    = "${lower(var.subdomain)}.${var.domain_name}"
   type    = "A"
   zone_id = data.aws_route53_zone.ecs_domain.zone_id
   alias {
