@@ -9,7 +9,7 @@ resource "aws_acm_certificate" "ecs-domain-certificate" {
 
 
 data "aws_route53_zone" "ecs_domain" {
-  name       = "${lower(local.subdomain)}.${var.domain_name}"
+  name         = var.domain_name
   private_zone = false
 }
 
