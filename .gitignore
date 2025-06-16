@@ -35,3 +35,7 @@ terraform.rc
 
 # DEV
 .env
+test.tfvars
+out.json
+out.txt
+plan.dryrun
