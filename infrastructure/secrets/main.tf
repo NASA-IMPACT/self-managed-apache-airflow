@@ -58,7 +58,7 @@ resource "aws_secretsmanager_secret" "airflow_dag_variables" {  # NOTE: keep thi
   name = "${var.prefix}/airflow/variables/aws_dags_variables"
 }
 
-resource "aws_secretsmanager_secret_version" "aws_dag_secrets" {
-  secret_id     = aws_secretsmanager_secret.aws_dag_secrets.id
+resource "aws_secretsmanager_secret_version" "airflow_dag_variables" {
+  secret_id     = aws_secretsmanager_secret.airflow_dag_variables.id
   secret_string = jsonencode(var.airflow_dag_secrets)
 }
