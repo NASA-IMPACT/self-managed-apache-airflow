@@ -54,11 +54,11 @@ EOF
 
 
 # These secrets are values which are used by DAGs, but are sensitive and should not be passed through the container environment
-resource "aws_secretsmanager_secret" "aws_dag_secrets" {
+resource "aws_secretsmanager_secret" "airflow_dag_variables" {  # NOTE: keep this resource named as-is for backwards compatibility
   name = "${var.prefix}/airflow/variables/aws_dags_variables"
 }
 
-resource "aws_secretsmanager_secret_version" "aws_dag_secrets" {
-  secret_id     = aws_secretsmanager_secret.aws_dag_secrets.id
+resource "aws_secretsmanager_secret_version" "airflow_dag_variables" {
+  secret_id     = aws_secretsmanager_secret.airflow_dag_variables.id
   secret_string = jsonencode(var.airflow_dag_secrets)
 }
