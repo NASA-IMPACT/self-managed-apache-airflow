@@ -98,11 +98,10 @@ module "ecs_services" {
   task_cpu_architecture          = var.task_cpu_architecture
 }
 
-resource "null_resource" "airflow_create_airflow_user" {
+
+resource "null_resource" "airflow_initialize_or_migrate_db" {
   depends_on = [module.ecs_services, module.database]
   triggers = {
-    admin_password = var.airflow_admin_password
-    admin_username = var.airflow_admin_username
     airflow_version = var.airflow_version #  trigger new migration if version changes
   }
 
@@ -110,6 +109,20 @@ resource "null_resource" "airflow_create_airflow_user" {
   provisioner "local-exec" {
     command = <<EOF
         python ${path.root}/../scripts/run_task.py --wait-tasks-stopped --command "db migrate --to-version ${var.airflow_version}"
+       EOF
+  }
+}
+
+
+resource "null_resource" "airflow_create_airflow_user" {
+  depends_on = [null_resource.airflow_initialize_or_migrate_db]
+  triggers = {
+    admin_password = var.airflow_admin_password
+    admin_username = var.airflow_admin_username
+  }
+
+  provisioner "local-exec" {
+    command = <<EOF
         python ${path.root}/../scripts/run_task.py --wait-tasks-stopped --command "users create --username ${var.airflow_admin_username} --firstname ${var.airflow_admin_username} --lastname ${var.airflow_admin_username} --password ${var.airflow_admin_password} --email ${local.airflow_admin_email} --role Admin"
        EOF
   }
