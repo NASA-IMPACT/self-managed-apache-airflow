@@ -11,3 +11,6 @@ output "allowed_security_groups_id" {
 
   ])
 }
+output "worker_security_group_id" {
+  value = aws_security_groups.airflow_worker_service.id
+}
