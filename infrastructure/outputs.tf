@@ -13,3 +13,7 @@ output "database_endpoint" {
 output "airflow_secret_name" {
   value = module.secrets.airflow_secrets
 }
+
+output "worker_security_group_id" {
+  value = module.ecs_services.worker_security_group_id
+}
