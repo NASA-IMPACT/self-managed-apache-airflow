@@ -232,3 +232,14 @@ variable "backup_retention_period" {
   type        = number
   default     = 7
 }
+
+variable "rds_storage_encrypted" {
+  description = "Encrypt Airflow RDS data at rest"
+  type        = bool
+}
+
+variable "rds_deletion_protection" {
+  description = "Enable deletion protection on Airflow RDS instance"
+  type        = bool
+  default     = true
+}

@@ -60,3 +60,11 @@ variable "backup_retention_period" {
   type = number
 }
 
+variable "storage_encrypted" {
+  type = bool
+}
+
+variable "deletion_protection" {
+  type    = bool
+  default = true
+}

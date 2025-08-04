@@ -24,6 +24,8 @@ module "database" {
   db_allocated_storage        = var.rds_allocated_storage
   db_max_allocated_storage    = var.rds_max_allocated_storage
   backup_retention_period     = var.backup_retention_period
+  storage_encrypted           = var.rds_storage_encrypted
+  deletion_protection         = var.rds_deletion_protection
 }
 
 
