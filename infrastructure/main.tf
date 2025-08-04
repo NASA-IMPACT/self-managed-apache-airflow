@@ -32,18 +32,18 @@ module "database" {
 
 
 module "secrets" {
-  source                   = "./secrets"
-  db_endpoint              = module.database.database_endpoint
-  db_name                  = var.airflow_db.db_name
-  db_password              = module.database.database_password
-  db_port                  = var.airflow_db.port
-  db_username              = var.airflow_db.username
-  fernet_key               = var.fernet_key
-  prefix                   = var.prefix
-  airflow_admin_username   = var.airflow_admin_username
-  airflow_admin_password   = var.airflow_admin_password
-  webserver_url            = module.ecs_services.airflow_url
-  airflow_dag_secrets = merge({ db_secret_name = module.secrets.airflow_secrets }, var.airflow_dag_secrets, var.airflow_custom_variables)
+  source                 = "./secrets"
+  db_endpoint            = module.database.database_endpoint
+  db_name                = var.airflow_db.db_name
+  db_password            = module.database.database_password
+  db_port                = var.airflow_db.port
+  db_username            = var.airflow_db.username
+  fernet_key             = var.fernet_key
+  prefix                 = var.prefix
+  airflow_admin_username = var.airflow_admin_username
+  airflow_admin_password = var.airflow_admin_password
+  webserver_url          = module.ecs_services.airflow_url
+  airflow_dag_secrets    = merge({ db_secret_name = module.secrets.airflow_secrets }, var.airflow_dag_secrets, var.airflow_custom_variables)
 }
 
 
@@ -103,12 +103,12 @@ module "ecs_services" {
 resource "null_resource" "airflow_create_airflow_user" {
   depends_on = [module.ecs_services, module.database]
   triggers = {
-    admin_password = var.airflow_admin_password
-    admin_username = var.airflow_admin_username
+    admin_password  = var.airflow_admin_password
+    admin_username  = var.airflow_admin_username
     airflow_version = var.airflow_version #  trigger new migration if version changes
   }
 
-#  db migrate will create DB if it does not exist
+  #  db migrate will create DB if it does not exist
   provisioner "local-exec" {
     command = <<EOF
         python ${path.root}/../scripts/run_task.py --wait-tasks-stopped --command "db migrate --to-version ${var.airflow_version}"
