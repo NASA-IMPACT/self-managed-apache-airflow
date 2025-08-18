@@ -24,7 +24,8 @@ resource "aws_db_instance" "airflow_db" {
   username               = var.airflow_db.username
   password               = var.airflow_db.password
   port                   = var.airflow_db.port
-  deletion_protection    = true
+  deletion_protection    = var.deletion_protection
   # Enable automated backups
-  backup_retention_period = var.backup_retention_period  # Retain backups
+  backup_retention_period = var.backup_retention_period # Retain backups
+  storage_encrypted       = var.storage_encrypted
 }
