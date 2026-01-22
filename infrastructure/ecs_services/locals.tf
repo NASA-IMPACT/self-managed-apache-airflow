@@ -1,5 +1,16 @@
 locals {
   subdomain           = var.subdomain == "null" ? var.stage : var.subdomain
+  base_domain = join(".", slice(split(".", var.domain_name), 1, length(split(".", var.domain_name))))
+
+  certificate_domain_names = lower(local.subdomain) == "production" ? [
+    "${lower(local.subdomain)}.${var.domain_name}",
+    "${lower(local.subdomain)}.${local.base_domain}"
+  ] : [
+    "${lower(local.subdomain)}.${var.domain_name}"
+  ]
+
+  host_header_values = local.certificate_domain_names
+
   services_build_path = "../${path.root}/airflow_services"
   dag_folder_path     = "../${path.root}/dags"
   scripts_path        = "../${path.root}/scripts"

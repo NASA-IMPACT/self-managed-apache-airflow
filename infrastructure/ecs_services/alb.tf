@@ -91,12 +91,7 @@ resource "aws_alb_listener_rule" "ecs-alb-listener-role" {
   }
   condition {
     host_header {
-      values = lower(local.subdomain) == "production" ? [
-        "${lower(local.subdomain)}.${var.domain_name}",
-        "${lower(local.subdomain)}.${join(".", slice(split(".", var.domain_name), 1, length(split(".", var.domain_name))))}"
-      ] : [
-        "${lower(local.subdomain)}.${var.domain_name}"
-    ]
+      values = local.host_header_values
     }
   }
 }
