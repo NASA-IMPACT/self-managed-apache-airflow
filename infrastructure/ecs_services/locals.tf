@@ -2,12 +2,14 @@ locals {
   subdomain           = var.subdomain == "null" ? var.stage : var.subdomain
   base_domain = join(".", slice(split(".", var.domain_name), 1, length(split(".", var.domain_name))))
 
-  certificate_domain_names = lower(local.subdomain) == "production" ? [
-    "${lower(local.subdomain)}.${var.domain_name}",
-    "${lower(local.subdomain)}.${local.base_domain}"
-  ] : [
-    "${lower(local.subdomain)}.${var.domain_name}"
-  ]
+  certificate_domain_names = var.customdomain != null ? [lower(var.customdomain)] : (
+    lower(local.subdomain) == "production" ? [
+      "${lower(local.subdomain)}.${var.domain_name}",
+      "${lower(local.subdomain)}.${local.base_domain}"
+    ] : [
+      "${lower(local.subdomain)}.${var.domain_name}"
+    ]
+  )
 
   host_header_values = local.certificate_domain_names
 

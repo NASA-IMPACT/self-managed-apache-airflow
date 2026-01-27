@@ -166,6 +166,12 @@ variable "subdomain" {
   default = "null"
 }
 
+variable "customdomain" {
+  description = "Optional custom domain for ALB host header and certificate. If provided, it will overrides the default subdomain.domain_name logic"
+  type        = string
+  default     = null
+}
+
 variable "rds_allocated_storage" {
   type    = number
   default = 20
