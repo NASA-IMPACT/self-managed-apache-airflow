@@ -167,7 +167,7 @@ variable "subdomain" {
 }
 
 variable "customdomain" {
-  description = "Optional custom domain for ALB host header and certificate. If provided, it will overrides the default subdomain.domain_name logic"
+  description = "Optional custom domain for ALB host header and certificate. If provided, overrides default subdomain.domain_name logic"
   type        = string
   default     = null
 }
