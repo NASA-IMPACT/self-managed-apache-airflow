@@ -96,6 +96,7 @@ module "ecs_services" {
   stage                          = var.stage
   worker_cmd                     = var.worker_cmd
   subdomain                      = var.subdomain
+  customdomain                   = var.customdomain
   workers_logs_retention_days    = var.workers_logs_retention_days
   task_cpu_architecture          = var.task_cpu_architecture
 }

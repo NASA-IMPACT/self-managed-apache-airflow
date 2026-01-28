@@ -91,7 +91,7 @@ resource "aws_alb_listener_rule" "ecs-alb-listener-role" {
   }
   condition {
     host_header {
-      values = ["${lower(local.subdomain)}.${var.domain_name}"]
+      values = local.host_header_values
     }
   }
 }

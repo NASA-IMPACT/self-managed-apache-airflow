@@ -99,6 +99,11 @@ variable "worker_cmd" {
 variable "subdomain" {
 }
 
+variable "customdomain" {
+  description = "Optional custom domain for ALB host header and certificate. If provided, overrides default subdomain.domain_name logic"
+  type        = string
+}
+
 variable "workers_logs_retention_days" {
   type = number
 }
