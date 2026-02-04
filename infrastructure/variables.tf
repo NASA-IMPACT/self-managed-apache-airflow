@@ -178,7 +178,7 @@ variable "rds_allocated_storage" {
 }
 variable "rds_max_allocated_storage" {
   type    = number
-  default = 100
+  default = 330
 }
 
 variable "extra_airflow_configuration" {
