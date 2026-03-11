@@ -249,3 +249,15 @@ variable "rds_deletion_protection" {
   type        = bool
   default     = true
 }
+
+variable "alb_access_logs_bucket" {
+  description = "S3 bucket name for ALB access logs. The bucket must already exist and have the correct bucket policy for ALB logging."
+  type        = string
+  default     = null
+}
+
+variable "alb_access_logs_prefix" {
+  description = "S3 key prefix for ALB access logs."
+  type        = string
+  default     = null
+}

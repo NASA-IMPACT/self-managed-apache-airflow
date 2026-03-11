@@ -3,6 +3,13 @@ resource "aws_alb" "airflow_webserver" {
   internal        = false
   security_groups = [aws_security_group.airflow_webserver_alb.id]
   subnets         = var.public_subnet_ids
+
+  access_logs {
+    bucket  = var.alb_access_logs_bucket
+    prefix  = var.alb_access_logs_prefix
+    enabled = var.alb_access_logs_bucket != null
+  }
+
   tags = {
     Contact = var.contact
     Project = var.project
