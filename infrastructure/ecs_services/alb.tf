@@ -5,8 +5,8 @@ resource "aws_alb" "airflow_webserver" {
   subnets         = var.public_subnet_ids
 
   access_logs {
-    bucket  = var.alb_access_logs_bucket
-    prefix  = var.alb_access_logs_prefix
+    bucket  = var.alb_access_logs_bucket != null ? var.alb_access_logs_bucket : ""
+    prefix  = var.alb_access_logs_prefix != null ? var.alb_access_logs_prefix : ""
     enabled = var.alb_access_logs_bucket != null
   }
 
