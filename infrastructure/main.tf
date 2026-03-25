@@ -99,6 +99,8 @@ module "ecs_services" {
   customdomain                   = var.customdomain
   workers_logs_retention_days    = var.workers_logs_retention_days
   task_cpu_architecture          = var.task_cpu_architecture
+  alb_access_logs_bucket         = var.alb_access_logs_bucket
+  alb_access_logs_prefix         = var.alb_access_logs_prefix
 }
 
 resource "null_resource" "airflow_create_airflow_user" {
