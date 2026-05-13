@@ -1,4 +1,4 @@
-FROM apache/airflow:slim-2.7.0-python3.10
+FROM apache/airflow:slim-3.0.2-python3.12
 
 USER root
 # `apt-get autoremove` is used to remove packages that were automatically installed to satisfy
@@ -16,7 +16,7 @@ COPY --chown=airflow:airflow requirements.txt "${AIRFLOW_HOME}/requirements.txt"
 USER airflow
 
 RUN pip install --upgrade pip \
-  && pip install --no-cache-dir -r requirements.txt -c "https://raw.githubusercontent.com/apache/airflow/constraints-2.7.0/constraints-3.10.txt"
+  && pip install --no-cache-dir -r requirements.txt -c "https://raw.githubusercontent.com/apache/airflow/constraints-3.0.2/constraints-3.12.txt"
 
 COPY --chown=airflow:airflow dags "${AIRFLOW_HOME}/dags"
 COPY --chown=airflow:airflow plugins "${AIRFLOW_HOME}/plugins"

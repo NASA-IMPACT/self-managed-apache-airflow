@@ -101,6 +101,8 @@ module "ecs_services" {
   task_cpu_architecture          = var.task_cpu_architecture
   alb_access_logs_bucket         = var.alb_access_logs_bucket
   alb_access_logs_prefix         = var.alb_access_logs_prefix
+  triggerer_cpu                  = var.triggerer_cpu
+  triggerer_memory               = var.triggerer_memory
 }
 
 resource "null_resource" "airflow_create_airflow_user" {

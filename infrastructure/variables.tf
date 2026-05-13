@@ -228,9 +228,21 @@ variable "task_cpu_architecture" {
 }
 
 variable "airflow_version" {
-  description = "The version of Airflow to use in the DB init step. Defaults to '2.8.4'."
+  description = "The version of Airflow to use in the DB init step. Defaults to '3.0.2'."
   type        = string
-  default     = "2.8.4"
+  default     = "3.0.2"
+}
+
+variable "triggerer_cpu" {
+  description = "CPU units for the Airflow triggerer task. Required for deferrable operators."
+  type        = number
+  default     = 1024
+}
+
+variable "triggerer_memory" {
+  description = "Memory (MiB) for the Airflow triggerer task."
+  type        = number
+  default     = 2048
 }
 
 variable "backup_retention_period" {

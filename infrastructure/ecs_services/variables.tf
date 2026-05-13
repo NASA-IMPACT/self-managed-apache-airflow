@@ -122,3 +122,11 @@ variable "alb_access_logs_prefix" {
   type        = string
   default     = null
 }
+
+variable "triggerer_cpu" {
+  type = number
+}
+
+variable "triggerer_memory" {
+  type = number
+}

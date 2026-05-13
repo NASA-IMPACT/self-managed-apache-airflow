@@ -21,7 +21,7 @@ resource "aws_ecs_task_definition" "airflow_webserver" {
   requires_compatibilities = ["FARGATE"]
   container_definitions = jsonencode([
     {
-      name   = "webserver"
+      name   = "api-server"
       image  = join(":", [aws_ecr_repository.airflow.repository_url, "latest"])
       cpu    = 1024
       memory = 2048
@@ -46,7 +46,7 @@ resource "aws_ecs_task_definition" "airflow_webserver" {
         initProcessEnabled = true
       }
       essential = true
-      command   = ["webserver"]
+      command   = ["api-server"]
       environment = concat(var.airflow_task_common_environment,
         [
           {
@@ -113,7 +113,7 @@ resource "aws_ecs_service" "airflow_webserver" {
   scheduling_strategy = "REPLICA"
   load_balancer {
     target_group_arn = aws_alb_target_group.ecs-app-target-group.arn # .airflow_webserver.arn
-    container_name   = "webserver"
+    container_name   = "api-server"
     container_port   = 8080
   }
   # Update from services folder
