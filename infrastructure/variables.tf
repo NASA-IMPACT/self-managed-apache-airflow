@@ -51,6 +51,12 @@ variable "airflow_db" {
 variable "fernet_key" {
 }
 
+variable "jwt_secret" {
+  description = "Symmetric secret for signing Airflow 3 component JWTs (api_auth.jwt_secret). Required for multi-worker api-server. Generate with `openssl rand -hex 32`."
+  type        = string
+  sensitive   = true
+}
+
 variable "permission_boundaries_arn" {
   default = "null"
 }

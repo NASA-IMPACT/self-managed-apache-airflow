@@ -39,6 +39,7 @@ module "secrets" {
   db_port                = var.airflow_db.port
   db_username            = var.airflow_db.username
   fernet_key             = var.fernet_key
+  jwt_secret             = var.jwt_secret
   prefix                 = var.prefix
   airflow_admin_username = var.airflow_admin_username
   airflow_admin_password = var.airflow_admin_password
@@ -79,6 +80,7 @@ module "ecs_services" {
   airflow_bucket_arn               = data.aws_s3_bucket.airflow_bucket.arn
   celery_result_backend_ssm_arn    = module.secrets.celery_result_backend_arn
   fernet_key_ssm_arn               = module.secrets.fernet_key_arn
+  jwt_secret_ssm_arn               = module.secrets.jwt_secret_arn
   permission_boundaries_arn        = var.permission_boundaries_arn
   sql_alchemy_conn_ssm_arn         = module.secrets.sql_alchemy_conn_arn
   sqs_arns_list                    = concat(var.sqs_arns_list, [module.sqs_queue.celery_broker_arn])

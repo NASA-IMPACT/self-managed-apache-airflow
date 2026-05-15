@@ -8,6 +8,15 @@ resource "aws_secretsmanager_secret_version" "fernet_key" {
   secret_string = var.fernet_key
 }
 
+resource "aws_secretsmanager_secret" "jwt_secret" {
+  name_prefix = "${var.prefix}/airflow/config/jwt_secret/"
+}
+
+resource "aws_secretsmanager_secret_version" "jwt_secret" {
+  secret_id     = aws_secretsmanager_secret.jwt_secret.id
+  secret_string = var.jwt_secret
+}
+
 # Store core.sql_alchemy_conn setting for consumption by airflow SecretsManagerBackend.
 # The config options must follow the config prefix naming convention defined within the secrets backend.
 # This means that sql_alchemy_conn is not defined with a connection prefix, but with "config" prefix.

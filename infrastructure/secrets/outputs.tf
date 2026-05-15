@@ -25,6 +25,14 @@ output "sql_alchemy_conn_arn" {
 output "fernet_key_arn" {
   value = aws_secretsmanager_secret.fernet_key.arn
 }
+
+output "jwt_secret_name" {
+  value = aws_secretsmanager_secret.jwt_secret.name
+}
+
+output "jwt_secret_arn" {
+  value = aws_secretsmanager_secret.jwt_secret.arn
+}
 output "airflow_secrets" {
   value = aws_secretsmanager_secret.airflow_secrets.name
 }

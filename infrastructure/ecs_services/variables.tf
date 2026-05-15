@@ -37,6 +37,9 @@ variable "airflow_task_common_environment" {
 variable "fernet_key_ssm_arn" {
 
 }
+
+variable "jwt_secret_ssm_arn" {
+}
 variable "sql_alchemy_conn_ssm_arn" {
 }
 variable "celery_result_backend_ssm_arn" {

@@ -43,6 +43,10 @@ locals {
       value = substr(module.secrets.fernet_key_name, length(var.prefix) + 16, -1)
     },
     {
+      name  = "AIRFLOW__API_AUTH__JWT_SECRET_SECRET"
+      value = substr(module.secrets.jwt_secret_name, length(var.prefix) + 16, -1)
+    },
+    {
       name  = "AIRFLOW__CELERY__RESULT_BACKEND_SECRET"
       value = substr(module.secrets.celery_result_backend_name, length(var.prefix) + 16, -1)
     },
