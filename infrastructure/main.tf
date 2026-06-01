@@ -3,6 +3,16 @@ module "sqs_queue" {
   prefix = var.prefix
 }
 
+resource "random_password" "jwt_secret_generated" {
+  count   = var.jwt_secret == null ? 1 : 0
+  length  = 64
+  special = false
+}
+
+locals {
+  effective_jwt_secret = var.jwt_secret != null ? var.jwt_secret : random_password.jwt_secret_generated[0].result
+}
+
 
 
 module "database" {
@@ -39,7 +49,7 @@ module "secrets" {
   db_port                = var.airflow_db.port
   db_username            = var.airflow_db.username
   fernet_key             = var.fernet_key
-  jwt_secret             = var.jwt_secret
+  jwt_secret             = local.effective_jwt_secret
   prefix                 = var.prefix
   airflow_admin_username = var.airflow_admin_username
   airflow_admin_password = var.airflow_admin_password

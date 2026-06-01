@@ -52,8 +52,9 @@ variable "fernet_key" {
 }
 
 variable "jwt_secret" {
-  description = "Symmetric secret for signing Airflow 3 component JWTs (api_auth.jwt_secret). Required for multi-worker api-server. Generate with `openssl rand -hex 32`."
+  description = "Optional. Symmetric secret for Airflow 3 api_auth.jwt_secret. If null, the module generates and stores a stable random value via random_password."
   type        = string
+  default     = null
   sensitive   = true
 }
 
