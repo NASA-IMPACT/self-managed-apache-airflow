@@ -77,7 +77,7 @@ resource "aws_alb_target_group" "ecs-app-target-group" {
   target_type = "ip"
   health_check {
     enabled = true
-    path    = "/health"
+    path    = "/api/v2/monitor/health"
     # Note: 'interval' must be greater than 'timeout'
     interval            = 30
     timeout             = 10

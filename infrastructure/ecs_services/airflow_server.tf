@@ -36,7 +36,7 @@ resource "aws_ecs_task_definition" "airflow_webserver" {
           "CMD",
           "curl",
           "--fail",
-          "http://localhost:8080/health"
+          "http://localhost:8080/api/v2/monitor/health"
         ]
         interval = 35
         timeout  = 30
