@@ -85,6 +85,7 @@ module "ecs_services" {
   public_subnet_ids                = data.aws_subnets.public_subnets_id.ids
   worker_cpu                       = var.worker_cpu
   worker_memory                    = var.worker_memory
+  worker_ephemeral_storage         = var.worker_ephemeral_storage
 
   custom_worker_policy_statement = var.custom_worker_policy_statement
   number_of_schedulers           = var.number_of_schedulers

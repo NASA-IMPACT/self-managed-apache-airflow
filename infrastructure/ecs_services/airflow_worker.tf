@@ -19,6 +19,14 @@ resource "aws_ecs_task_definition" "airflow_worker" {
     operating_system_family = "LINUX"
     cpu_architecture        = var.task_cpu_architecture
   }
+  # Only emit the block when raising storage above the Fargate default (20 GiB).
+  # The API rejects size_in_gib = 20; omitting the block keeps the 20 GiB default.
+  dynamic "ephemeral_storage" {
+    for_each = var.worker_ephemeral_storage > 20 ? [1] : []
+    content {
+      size_in_gib = var.worker_ephemeral_storage
+    }
+  }
   requires_compatibilities = ["FARGATE"]
   container_definitions = jsonencode([
     {

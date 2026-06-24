@@ -54,6 +54,14 @@ variable "worker_cpu" {
 variable "worker_memory" {
 
 }
+variable "worker_ephemeral_storage" {
+  description = "Amount of ephemeral storage (in GiB) for the worker Fargate task. Use 20 to keep the Fargate default (the ephemeral_storage block is omitted); to raise it, set a value between 21 and 200."
+  default     = 20
+  validation {
+    condition     = var.worker_ephemeral_storage == 20 || (var.worker_ephemeral_storage >= 21 && var.worker_ephemeral_storage <= 200)
+    error_message = "worker_ephemeral_storage must be 20 (Fargate default) or between 21 and 200 GiB."
+  }
+}
 
 variable "custom_worker_policy_statement" {
   type = list(object({
