@@ -280,3 +280,19 @@ variable "alb_access_logs_prefix" {
   type        = string
   default     = null
 }
+
+variable "celery_broker_visibility_timeout_seconds" {
+  description = <<-EOT
+    Visibility timeout for the celery broker SQS queue, in seconds. Must exceed the
+    runtime of the longest Airflow task, or SQS redelivers the message mid-run and the
+    duplicate delivery fails the task. Defaults to 30 minutes; raise it if any task
+    routinely runs longer. SQS allows up to 43200 (12h).
+  EOT
+  type        = number
+  default     = 1800
+
+  validation {
+    condition     = var.celery_broker_visibility_timeout_seconds >= 30 && var.celery_broker_visibility_timeout_seconds <= 43200
+    error_message = "celery_broker_visibility_timeout_seconds must be between 30 and 43200 (SQS limits)."
+  }
+}
