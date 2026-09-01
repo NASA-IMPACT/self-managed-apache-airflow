@@ -1,4 +1,4 @@
-FROM apache/airflow:slim-2.7.0-python3.10
+FROM apache/airflow:slim-2.7.0-python3.11
 
 USER root
 # `apt-get autoremove` is used to remove packages that were automatically installed to satisfy
