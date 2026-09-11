@@ -49,6 +49,10 @@ resource "aws_ecs_task_definition" "airflow_worker" {
             value = "0"
           },
           {
+            name  = "AIRFLOW__CORE__TASK_EXECUTION_TOKEN_URL"
+            value = "https://${lower(local.subdomain)}.${var.domain_name}/api/v2/execution/"
+          },
+          {
             name  = "WORKER_HASHES"
             value = join(",", local.workers_hashes)
           }

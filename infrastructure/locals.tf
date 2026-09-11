@@ -11,7 +11,7 @@ locals {
 
   airflow_task_common_environment = concat(var.extra_airflow_task_common_environment, [
     {
-      name  = "AIRFLOW__WEBSERVER__INSTANCE_NAME"
+      name  = "AIRFLOW__API_SERVER__INSTANCE_NAME"
       value = "${var.prefix}-${var.project}"
     },
     {
@@ -41,6 +41,10 @@ locals {
     {
       name  = "AIRFLOW__CORE__FERNET_KEY_SECRET"
       value = substr(module.secrets.fernet_key_name, length(var.prefix) + 16, -1)
+    },
+    {
+      name  = "AIRFLOW__API_AUTH__JWT_SECRET_SECRET"
+      value = substr(module.secrets.jwt_secret_name, length(var.prefix) + 16, -1)
     },
     {
       name  = "AIRFLOW__CELERY__RESULT_BACKEND_SECRET"

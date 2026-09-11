@@ -112,6 +112,7 @@ resource "aws_iam_policy" "secret_manager_read_secret" {
         Effect = "Allow"
         Resource = [
           var.fernet_key_ssm_arn,
+          var.jwt_secret_ssm_arn,
           var.sql_alchemy_conn_ssm_arn,
           var.celery_result_backend_ssm_arn
         ]

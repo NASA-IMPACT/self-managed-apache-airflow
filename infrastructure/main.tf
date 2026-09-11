@@ -1,6 +1,17 @@
 module "sqs_queue" {
-  source = "./sqs"
-  prefix = var.prefix
+  source                     = "./sqs"
+  prefix                     = var.prefix
+  visibility_timeout_seconds = var.celery_broker_visibility_timeout_seconds
+}
+
+resource "random_password" "jwt_secret_generated" {
+  count   = var.jwt_secret == null ? 1 : 0
+  length  = 64
+  special = false
+}
+
+locals {
+  effective_jwt_secret = var.jwt_secret != null ? var.jwt_secret : random_password.jwt_secret_generated[0].result
 }
 
 
@@ -39,6 +50,7 @@ module "secrets" {
   db_port                = var.airflow_db.port
   db_username            = var.airflow_db.username
   fernet_key             = var.fernet_key
+  jwt_secret             = local.effective_jwt_secret
   prefix                 = var.prefix
   airflow_admin_username = var.airflow_admin_username
   airflow_admin_password = var.airflow_admin_password
@@ -79,6 +91,7 @@ module "ecs_services" {
   airflow_bucket_arn               = data.aws_s3_bucket.airflow_bucket.arn
   celery_result_backend_ssm_arn    = module.secrets.celery_result_backend_arn
   fernet_key_ssm_arn               = module.secrets.fernet_key_arn
+  jwt_secret_ssm_arn               = module.secrets.jwt_secret_arn
   permission_boundaries_arn        = var.permission_boundaries_arn
   sql_alchemy_conn_ssm_arn         = module.secrets.sql_alchemy_conn_arn
   sqs_arns_list                    = concat(var.sqs_arns_list, [module.sqs_queue.celery_broker_arn])
@@ -102,6 +115,8 @@ module "ecs_services" {
   task_cpu_architecture          = var.task_cpu_architecture
   alb_access_logs_bucket         = var.alb_access_logs_bucket
   alb_access_logs_prefix         = var.alb_access_logs_prefix
+  triggerer_cpu                  = var.triggerer_cpu
+  triggerer_memory               = var.triggerer_memory
 }
 
 resource "null_resource" "airflow_create_airflow_user" {

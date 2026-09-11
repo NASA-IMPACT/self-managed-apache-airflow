@@ -1,4 +1,4 @@
-FROM --platform=linux/arm64 osgeo/gdal:latest
+FROM --platform=linux/arm64 ghcr.io/osgeo/gdal:ubuntu-small-3.10.3
 
 RUN apt-get -y update \
         && apt install -y python3-pip \
@@ -35,9 +35,9 @@ ENV PATH $PATH:/home/airflow/.local/bin
 
 COPY --chown=airflow:airflow requirements.txt "${AIRFLOW_HOME}/requirements.txt"
 
-RUN pip install --upgrade pip \
-    && pip install "apache-airflow[celery,amazon]==2.7.0" --constraint "https://raw.githubusercontent.com/apache/airflow/constraints-2.7.0/constraints-3.10.txt" \
-    && pip install --no-cache-dir -r requirements.txt -c "https://raw.githubusercontent.com/apache/airflow/constraints-2.7.0/constraints-3.10.txt"
+RUN pip install --upgrade pip --break-system-packages \
+    && pip install "apache-airflow[celery,amazon]==3.0.2" --constraint "https://raw.githubusercontent.com/apache/airflow/constraints-3.0.2/constraints-3.12.txt" --break-system-packages \
+    && pip install --no-cache-dir -r requirements.txt -c "https://raw.githubusercontent.com/apache/airflow/constraints-3.0.2/constraints-3.12.txt" --break-system-packages
 
 
 COPY --chown=airflow:airflow dags "${AIRFLOW_HOME}/dags"

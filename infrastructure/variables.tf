@@ -51,6 +51,13 @@ variable "airflow_db" {
 variable "fernet_key" {
 }
 
+variable "jwt_secret" {
+  description = "Optional. Symmetric secret for Airflow 3 api_auth.jwt_secret. If null, the module generates and stores a stable random value via random_password."
+  type        = string
+  default     = null
+  sensitive   = true
+}
+
 variable "permission_boundaries_arn" {
   default = "null"
 }
@@ -236,9 +243,21 @@ variable "task_cpu_architecture" {
 }
 
 variable "airflow_version" {
-  description = "The version of Airflow to use in the DB init step. Defaults to '2.8.4'."
+  description = "The version of Airflow to use in the DB init step. Defaults to '3.0.2'."
   type        = string
-  default     = "2.8.4"
+  default     = "3.0.2"
+}
+
+variable "triggerer_cpu" {
+  description = "CPU units for the Airflow triggerer task. Required for deferrable operators."
+  type        = number
+  default     = 1024
+}
+
+variable "triggerer_memory" {
+  description = "Memory (MiB) for the Airflow triggerer task."
+  type        = number
+  default     = 2048
 }
 
 variable "backup_retention_period" {
@@ -268,4 +287,20 @@ variable "alb_access_logs_prefix" {
   description = "S3 key prefix for ALB access logs."
   type        = string
   default     = null
+}
+
+variable "celery_broker_visibility_timeout_seconds" {
+  description = <<-EOT
+    Visibility timeout for the celery broker SQS queue, in seconds. Must exceed the
+    runtime of the longest Airflow task, or SQS redelivers the message mid-run and the
+    duplicate delivery fails the task. Defaults to 30 minutes; raise it if any task
+    routinely runs longer. SQS allows up to 43200 (12h).
+  EOT
+  type        = number
+  default     = 1800
+
+  validation {
+    condition     = var.celery_broker_visibility_timeout_seconds >= 30 && var.celery_broker_visibility_timeout_seconds <= 43200
+    error_message = "celery_broker_visibility_timeout_seconds must be between 30 and 43200 (SQS limits)."
+  }
 }

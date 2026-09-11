@@ -18,6 +18,10 @@ variable "prefix" {
 
 variable "fernet_key" {
 }
+
+variable "jwt_secret" {
+  sensitive = true
+}
 variable "airflow_admin_username" {
 
 }
