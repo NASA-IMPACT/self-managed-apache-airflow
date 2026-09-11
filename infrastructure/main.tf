@@ -1,6 +1,7 @@
 module "sqs_queue" {
-  source = "./sqs"
-  prefix = var.prefix
+  source                     = "./sqs"
+  prefix                     = var.prefix
+  visibility_timeout_seconds = var.celery_broker_visibility_timeout_seconds
 }
 
 resource "random_password" "jwt_secret_generated" {
